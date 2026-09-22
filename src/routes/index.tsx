@@ -20,6 +20,10 @@ import { useCart } from "@/lib/cart";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
+      {
+        name: "google-site-verification",
+        content: "gNiZtRslMcOx60FKcxXBttVF3cRMUbOkMggBwyRSeso",
+      },
       { title: "D's PANAI | Pure Panangarkandu Palm Candy" },
       {
         name: "description",
