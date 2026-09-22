@@ -22,7 +22,7 @@ export const Route = createFileRoute("/")({
     meta: [
       {
         name: "google-site-verification",
-        content: "gNiZtRslMcOx60FKcxXBttVF3cRMUbOkMggBwyRSeso",
+        content:"gNiZtRslMcOx60FKcxXBttVF3cRMUbOkMggBwyRSeso"
       },
       { title: "D's PANAI | Pure Panangarkandu Palm Candy" },
       {
