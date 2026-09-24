@@ -22,7 +22,7 @@ export const Route = createFileRoute("/")({
     meta: [
       {
         name: "google-site-verification",
-        content:"gNiZtRslMcOx60FKcxXBttVF3cRMUbOkMggBwyRSeso"
+        content: "nEeYb1-BNxjD9Rl2vWeqB2rdy9Ic-F_zsSYLEGRn9XY",
       },
       { title: "D's PANAI | Pure Panangarkandu Palm Candy" },
       {
@@ -39,6 +39,7 @@ export const Route = createFileRoute("/")({
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "https://www.dspanaitraditions.in/" }],
     scripts: [
       {
         type: "application/ld+json",

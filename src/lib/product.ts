@@ -29,7 +29,7 @@ export const BRAND = {
   yearsInTrade: 25,
   shippingIndia: 50,
   shippingInternational: 500,
-  siteUrl: "https://project--a89224d2-c4d9-42da-9d1c-a79a4a4e4da6.lovable.app",
+  siteUrl: "https://www.dspanaitraditions.in",
 };
 
 export const PRODUCT = {
