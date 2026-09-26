@@ -21,11 +21,11 @@
  *       Execute as: Me
  *       Who has access: Anyone
  *     Copy the /exec URL and give it to the website (APPS_SCRIPT_URL).
- *  5. Keep SHARED_TOKEN below identical to the website's APPS_SCRIPT_TOKEN.
+ *  5. Set the Script Property APPS_SCRIPT_TOKEN to match the website secret.
  *******************************************************************/
 
-/** Must match the website secret APPS_SCRIPT_TOKEN exactly. */
-var SHARED_TOKEN = 'dspanai_live_9f3c7a41b6e24d8fa0c5e71b2d84af60';
+/** Set this Script Property to the same value as the website APPS_SCRIPT_TOKEN. */
+var TOKEN_PROPERTY = 'APPS_SCRIPT_TOKEN';
 
 var OWNER_EMAIL = 'divyaselvaraj339@gmail.com';
 var BRAND_NAME = "D's PANAI";
@@ -65,7 +65,7 @@ function getSheet_() {
   var sheet = ss.getSheetByName(SHEET_NAME) || ss.insertSheet(SHEET_NAME);
   if (sheet.getLastRow() === 0) {
     sheet.getRange(1, 1, 1, HEADERS.length).setValues([HEADERS]);
-  } else if (sheet.getRange(1, 22).getValue() !== 'Payment Status') {
+  } else if (sheet.getRange(1, 20).getValue() !== 'Payment Status') {
     sheet.getRange(1, 1, 1, HEADERS.length).setValues([HEADERS]);
   }
   return sheet;
@@ -135,7 +135,10 @@ function statusRule_(range, text, bg, fg) {
 function doPost(e) {
   try {
     var body = JSON.parse(e.postData.contents);
-    if (body.token !== SHARED_TOKEN) return json_({ ok: false, error: 'Unauthorized' });
+    var sharedToken = PropertiesService.getScriptProperties().getProperty(TOKEN_PROPERTY);
+    if (!sharedToken || body.token !== sharedToken) {
+      return json_({ ok: false, error: 'Unauthorized' });
+    }
 
     if (body.action === 'create') return json_(createOrder_(body.order));
     if (body.action === 'track') return json_(trackOrder_(body.orderId));
@@ -186,12 +189,6 @@ function createOrder_(order) {
     var file = DriveApp.createFile(invoice);
     file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
 
-    var emailedCustomer = false;
-    if (order.email) {
-      emailedCustomer = sendCustomerEmail_(orderId, order, items, invoice, 'new');
-    }
-    sendOwnerEmail_(orderId, order, items, invoice, summary.join('\n'));
-
     sheet.appendRow([
       orderId,
       Utilities.formatDate(now, Session.getScriptTimeZone(), 'dd MMM yyyy HH:mm'),
@@ -205,10 +202,22 @@ function createOrder_(order) {
       file.getUrl(),
       'Not paid',
       '',
-      emailedCustomer ? 'Yes' : 'No',
+      'No',
       Utilities.formatDate(now, Session.getScriptTimeZone(), 'dd MMM yyyy HH:mm')
     ]);
+    var orderRow = sheet.getLastRow();
     styleSheet_(sheet);
+
+    var emailedCustomer = order.email
+      ? sendCustomerEmail_(orderId, order, items, invoice)
+      : false;
+    sheet.getRange(orderRow, 22).setValue(emailedCustomer ? 'Yes' : 'No');
+
+    try {
+      sendOwnerEmail_(orderId, order, items, invoice, summary.join('\n'));
+    } catch (err) {
+      console.error(err);
+    }
 
     return { ok: true, orderId: orderId, emailedCustomer: emailedCustomer };
   } finally {
@@ -321,7 +330,7 @@ function trackOrder_(orderId) {
           status: String(row[2] || 'Pending'),
           firstName: String(row[3]).trim().split(/\s+/)[0],
           total: Number(row[17]) || 0,
-          invoiceUrl: String(row[18] || '')
+          invoiceUrl: ''
         }
       };
     }

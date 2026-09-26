@@ -5,12 +5,15 @@
 3. Open `apps-script/Code.gs` from this project, copy everything, paste it in, and save.
 4. In the toolbar, choose the function **setup** and press **Run**. Allow the
    permissions Google asks for (it needs to send email and create the invoice PDF).
-5. Press **Deploy → New deployment → Web app**:
+5. In **Project Settings → Script Properties**, add `APPS_SCRIPT_TOKEN` with a
+   newly generated secret value. Set the same value as the website's
+   `APPS_SCRIPT_TOKEN` environment secret. Do not put the token in source code.
+6. Press **Deploy → New deployment → Web app**:
    - Description: `D's PANAI orders`
    - Execute as: **Me**
    - Who has access: **Anyone**
-6. Press **Deploy**, then copy the web app URL that ends in `/exec`.
-7. Send that URL back in the chat — it is saved as `APPS_SCRIPT_URL`.
+7. Press **Deploy**, then set the web app URL ending in `/exec` as the website's
+   `APPS_SCRIPT_URL` environment secret. Redeploy the website after changing secrets.
 
 ## Updating an existing deployment
 
@@ -26,8 +29,16 @@ Create a new version of the existing web-app deployment:
 The tracking page sends `action: "track"` with the order ID. The deployed version
 must include the `track` branch in `doPost` and the `trackOrder_` function.
 
-The security token inside `Code.gs` (`SHARED_TOKEN`) already matches the
-website's saved `APPS_SCRIPT_TOKEN`. Do not change one without the other.
+The script reads `APPS_SCRIPT_TOKEN` from Script Properties. The website sends
+the matching secret from its server environment. The previously hardcoded token
+was exposed and must not be reused.
+
+Public order tracking intentionally does not return the invoice URL. The invoice
+is attached to the customer email; invoice and payment-proof links remain in the
+password-protected owner dashboard. Drive sharing remains "Anyone with the link"
+for compatibility with the dashboard's direct links, so those URLs are bearer
+links. Making the files fully private requires a server-side download proxy in
+the website as well as a corresponding Apps Script change.
 
 ## What happens on each order
 
