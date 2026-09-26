@@ -31,7 +31,7 @@ var OWNER_EMAIL = 'divyaselvaraj339@gmail.com';
 var BRAND_NAME = "D's PANAI";
 var BRAND_TAGLINE = 'Pure Palm Candy (Panangarkandu)';
 var BRAND_WHATSAPP = '+91 96778 92457';
-var BRAND_SITE = 'https://dspanai.lovable.app';
+var BRAND_SITE = 'https://www.dspanaitraditions.in';
 var LOGO_URL = BRAND_SITE + '/favicon.png';
 
 /* Website theme colours */

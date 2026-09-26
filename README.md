@@ -4,7 +4,7 @@ Create that 3d interactive animated insane branding website
 
 This project was built with [Lovable](https://lovable.dev).
 
-**Live app**: https://dspanai.lovable.app
+**Live app**: https://www.dspanaitraditions.in
 
 ## Build with Lovable
 
