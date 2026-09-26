@@ -9,7 +9,7 @@ import {
   type CustomerDetails,
   type ShippingDestination,
 } from "@/lib/cart";
-import { BRAND, IMAGES, PRODUCT, calculatePrice, formatINR, formatWeight } from "@/lib/product";
+import { BRAND, PRODUCT_IMAGES, PRODUCT, calculatePrice, formatINR, formatWeight } from "@/lib/product";
 import { placeOrder, uploadPaymentProof } from "@/lib/orders.functions";
 import { cn } from "@/lib/utils";
 
@@ -29,8 +29,10 @@ export const Route = createFileRoute("/order")({
           "Review your order, get a unique order ID, and receive your invoice by email. No online payment required.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:image", content: `${BRAND.siteUrl}/assets/images/dspanai-panangarkandu-pack-front.jpg` },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: `${BRAND.siteUrl}/order` }],
   }),
   component: OrderPage,
 });
@@ -381,10 +383,11 @@ function OrderPage() {
                 {lines.map((l) => (
                   <li key={l.lineId} className="flex gap-4">
                     <img
-                      src={IMAGES.product}
+                      src={PRODUCT_IMAGES.front}
                       alt={PRODUCT.name}
                       loading="lazy"
-                      className="size-20 rounded-lg object-cover"
+                      decoding="async"
+                      className="size-20 rounded-lg object-cover border border-border"
                     />
                     <div className="text-sm">
                       <p className="font-semibold text-forest">{PRODUCT.name}</p>

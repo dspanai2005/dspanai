@@ -81,21 +81,23 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "D's PANAI | Pure Panangarkandu" },
+      { title: "D's PANAI | Pure Panangarkandu Palm Candy" },
       {
         name: "description",
         content:
-          "D's PANAI brings traditional Pure Panangarkandu (Palm Candy) from a family tradition to your home in our illustrated branded pack.",
+          "D's PANAI brings traditional Pure Panangarkandu (Palm Candy) from a 25+ year family trade to your home in our illustrated branded pack.",
       },
       { name: "author", content: "D's PANAI" },
       { name: "theme-color", content: "#1A1714" },
-      { property: "og:title", content: "D's PANAI — Pure Panangarkandu" },
+      { property: "og:title", content: "D's PANAI — Pure Panangarkandu (Palm Candy)" },
       {
         property: "og:description",
         content: "A traditional Tamil sweetness, carried forward through generations.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:image", content: "https://www.dspanaitraditions.in/assets/images/dspanai-panangarkandu-hero-lifestyle.jpg" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: "https://www.dspanaitraditions.in/assets/images/dspanai-panangarkandu-hero-lifestyle.jpg" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
@@ -105,6 +107,26 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Marcellus&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400;1,500&family=Mukta:wght@300;400;500;600;700;800&display=swap",
+      },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: "D's PANAI",
+          alternateName: "D's Panai Traditions",
+          url: "https://www.dspanaitraditions.in",
+          logo: "https://www.dspanaitraditions.in/favicon.png",
+          sameAs: ["https://www.instagram.com/dspanai.traditions/"],
+          contactPoint: {
+            "@type": "ContactPoint",
+            telephone: "+91-9677892457",
+            contactType: "customer service",
+            availableLanguage: ["English", "Tamil"],
+          },
+        }),
       },
     ],
   }),

@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { LegalPage } from "@/components/LegalPage";
+import { BRAND } from "@/lib/product";
 
 export const Route = createFileRoute("/terms")({
   head: () => ({
@@ -13,7 +14,33 @@ export const Route = createFileRoute("/terms")({
       { property: "og:title", content: "Terms & Conditions — D's PANAI" },
       { property: "og:description", content: "Terms that apply to orders placed with D's PANAI." },
       { property: "og:type", content: "article" },
+      { property: "og:image", content: `${BRAND.siteUrl}/assets/images/dspanai-panangarkandu-pack-front.jpg` },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: `${BRAND.siteUrl}/assets/images/dspanai-panangarkandu-pack-front.jpg` },
+    ],
+    links: [{ rel: "canonical", href: `${BRAND.siteUrl}/terms` }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            {
+              "@type": "ListItem",
+              position: 1,
+              name: "Home",
+              item: BRAND.siteUrl,
+            },
+            {
+              "@type": "ListItem",
+              position: 2,
+              name: "Terms",
+              item: `${BRAND.siteUrl}/terms`,
+            },
+          ],
+        }),
+      },
     ],
   }),
   component: () => (

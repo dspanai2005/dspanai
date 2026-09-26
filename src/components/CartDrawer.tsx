@@ -65,10 +65,13 @@ export function CartDrawer() {
               {lines.map((line) => (
                 <li key={line.lineId} className="flex gap-4 rounded-xl border border-border bg-card p-3">
                   <img
-                    src={IMAGES.product}
+                    src={IMAGES.product ?? IMAGES.front ?? PRODUCT.gallery[0]?.src ?? ""}
                     alt={PRODUCT.name}
                     className="size-20 shrink-0 rounded-lg object-cover"
                     loading="lazy"
+                    onError={(event) => {
+                      event.currentTarget.src = IMAGES.front ?? PRODUCT.gallery[0]?.src ?? "";
+                    }}
                   />
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-sm font-semibold text-forest">{PRODUCT.shortName}</p>

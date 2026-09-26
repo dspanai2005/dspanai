@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Trash2 } from "lucide-react";
 import { useCart } from "@/lib/cart";
-import { IMAGES, PRODUCT, calculatePrice, formatINR, formatWeight } from "@/lib/product";
+import { BRAND, PRODUCT_IMAGES, PRODUCT, calculatePrice, formatINR, formatWeight } from "@/lib/product";
 
 export const Route = createFileRoute("/cart")({
   head: () => ({
@@ -15,8 +15,10 @@ export const Route = createFileRoute("/cart")({
       { property: "og:title", content: "Your D's PANAI order" },
       { property: "og:description", content: "Review your Panangarkandu order before ordering on WhatsApp." },
       { property: "og:type", content: "website" },
+      { property: "og:image", content: `${BRAND.siteUrl}/assets/images/dspanai-panangarkandu-pack-front.jpg` },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: `${BRAND.siteUrl}/cart` }],
   }),
   component: CartPage,
 });
@@ -26,11 +28,11 @@ function CartPage() {
 
   return (
     <div className="mx-auto max-w-[1240px] px-6 py-16 md:px-8 md:py-20">
-      <h1 className="font-display text-[clamp(2rem,5vw,3.25rem)]">Your D's PANAI order</h1>
+      <h1 className="font-display text-[clamp(2rem,5vw,3.25rem)] text-forest">Your D's PANAI order</h1>
 
       {lines.length === 0 ? (
         <div className="surface-card mt-10 p-12 text-center">
-          <p className="text-base text-muted-foreground">Your cart is empty.</p>
+          <p className="text-base text-muted-foreground">Your cart is currently empty.</p>
           <Link
             to="/product/$slug"
             params={{ slug: PRODUCT.slug }}
@@ -45,10 +47,11 @@ function CartPage() {
             {lines.map((line) => (
               <li key={line.lineId} className="surface-card flex flex-col gap-5 p-5 sm:flex-row">
                 <img
-                  src={IMAGES.product}
+                  src={PRODUCT_IMAGES.front}
                   alt={PRODUCT.name}
                   loading="lazy"
-                  className="size-28 shrink-0 rounded-xl object-cover"
+                  decoding="async"
+                  className="size-28 shrink-0 rounded-xl object-cover border border-border"
                 />
                 <div className="flex-1">
                   <div className="flex items-start justify-between gap-4">

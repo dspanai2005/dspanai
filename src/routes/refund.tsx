@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { LegalPage } from "@/components/LegalPage";
+import { BRAND } from "@/lib/product";
 
 export const Route = createFileRoute("/refund")({
   head: () => ({
@@ -8,12 +9,38 @@ export const Route = createFileRoute("/refund")({
       {
         name: "description",
         content:
-          "How cancellations, damaged parcels and refunds are handled for D's PANAI Panangarkandu orders.",
+          "Clear cancellation and refund policy for D's PANAI Pure Panangarkandu (palm candy) orders.",
       },
-      { property: "og:title", content: "Cancellation & Refunds — D's PANAI" },
-      { property: "og:description", content: "How cancellations and refunds are handled." },
+      { property: "og:title", content: "Cancellation & Refund Policy — D's PANAI" },
+      { property: "og:description", content: "How cancellations and refunds are handled for D's PANAI orders." },
       { property: "og:type", content: "article" },
+      { property: "og:image", content: `${BRAND.siteUrl}/assets/images/dspanai-panangarkandu-pack-front.jpg` },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: `${BRAND.siteUrl}/assets/images/dspanai-panangarkandu-pack-front.jpg` },
+    ],
+    links: [{ rel: "canonical", href: `${BRAND.siteUrl}/refund` }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            {
+              "@type": "ListItem",
+              position: 1,
+              name: "Home",
+              item: BRAND.siteUrl,
+            },
+            {
+              "@type": "ListItem",
+              position: 2,
+              name: "Refund Policy",
+              item: `${BRAND.siteUrl}/refund`,
+            },
+          ],
+        }),
+      },
     ],
   }),
   component: () => (

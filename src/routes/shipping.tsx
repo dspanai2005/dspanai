@@ -1,19 +1,46 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { LegalPage } from "@/components/LegalPage";
+import { BRAND } from "@/lib/product";
 
 export const Route = createFileRoute("/shipping")({
   head: () => ({
     meta: [
-      { title: "Shipping & Delivery | D's PANAI" },
+      { title: "Shipping & Delivery Policy | D's PANAI" },
       {
         name: "description",
         content:
           "D's PANAI ships Panangarkandu (palm candy) worldwide. Flat ₹50 shipping within India and ₹500 internationally, confirmed on WhatsApp.",
       },
-      { property: "og:title", content: "Shipping & Delivery — D's PANAI" },
-      { property: "og:description", content: "How we pack and ship Panangarkandu orders." },
+      { property: "og:title", content: "Shipping & Delivery Policy — D's PANAI" },
+      { property: "og:description", content: "How we pack and ship Panangarkandu orders across India and worldwide." },
       { property: "og:type", content: "article" },
+      { property: "og:image", content: `${BRAND.siteUrl}/assets/images/dspanai-panangarkandu-pack-front.jpg` },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: `${BRAND.siteUrl}/assets/images/dspanai-panangarkandu-pack-front.jpg` },
+    ],
+    links: [{ rel: "canonical", href: `${BRAND.siteUrl}/shipping` }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            {
+              "@type": "ListItem",
+              position: 1,
+              name: "Home",
+              item: BRAND.siteUrl,
+            },
+            {
+              "@type": "ListItem",
+              position: 2,
+              name: "Shipping",
+              item: `${BRAND.siteUrl}/shipping`,
+            },
+          ],
+        }),
+      },
     ],
   }),
   component: () => (
