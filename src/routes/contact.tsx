@@ -16,12 +16,19 @@ export const Route = createFileRoute("/contact")({
       { property: "og:title", content: "Contact D's PANAI — Panangarkandu Support" },
       {
         property: "og:description",
-        content: "WhatsApp us directly for Panangarkandu orders, bulk inquiries, and shipping support.",
+        content:
+          "WhatsApp us directly for Panangarkandu orders, bulk inquiries, and shipping support.",
       },
       { property: "og:type", content: "website" },
-      { property: "og:image", content: `${BRAND.siteUrl}/assets/images/dspanai-panangarkandu-pack-front.jpg` },
+      {
+        property: "og:image",
+        content: `${BRAND.siteUrl}/assets/images/dspanai-panangarkandu-pack-front.jpg`,
+      },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:image", content: `${BRAND.siteUrl}/assets/images/dspanai-panangarkandu-pack-front.jpg` },
+      {
+        name: "twitter:image",
+        content: `${BRAND.siteUrl}/assets/images/dspanai-panangarkandu-pack-front.jpg`,
+      },
     ],
     links: [{ rel: "canonical", href: `${BRAND.siteUrl}/contact` }],
     scripts: [
@@ -60,7 +67,8 @@ function Contact() {
           We reply promptly on WhatsApp.
         </h1>
         <p className="mt-5 max-w-lg text-base leading-relaxed text-muted-foreground">
-          For orders, bulk quantities, shipping status, or product questions — send us a direct message and our team will assist you personally.
+          For orders, bulk quantities, shipping status, or product questions — send us a direct
+          message and our team will assist you personally.
         </p>
 
         <div className="mt-10 space-y-3">

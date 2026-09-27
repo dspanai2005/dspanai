@@ -14,12 +14,19 @@ export const Route = createFileRoute("/our-story")({
       { property: "og:title", content: "A family tradition, carried forward — D's PANAI" },
       {
         property: "og:description",
-        content: "The story of a Tamil family trade in Panangarkandu, brought to homes across India.",
+        content:
+          "The story of a Tamil family trade in Panangarkandu, brought to homes across India.",
       },
       { property: "og:type", content: "article" },
-      { property: "og:image", content: `${BRAND.siteUrl}/assets/images/dspanai-panangarkandu-traditional-coffee.jpg` },
+      {
+        property: "og:image",
+        content: `${BRAND.siteUrl}/assets/images/dspanai-panangarkandu-traditional-coffee.jpg`,
+      },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:image", content: `${BRAND.siteUrl}/assets/images/dspanai-panangarkandu-traditional-coffee.jpg` },
+      {
+        name: "twitter:image",
+        content: `${BRAND.siteUrl}/assets/images/dspanai-panangarkandu-traditional-coffee.jpg`,
+      },
     ],
     links: [{ rel: "canonical", href: `${BRAND.siteUrl}/our-story` }],
     scripts: [
@@ -50,10 +57,19 @@ export const Route = createFileRoute("/our-story")({
 });
 
 const TIMELINE = [
-  { label: "Our Roots", body: "Family trade in Panangarkandu begins with our family elders in Udangudi / Thoothukudi." },
-  { label: "Decades of Trade", body: "Supplying bulk pure palm candy consistently to homes and merchants for 25+ years." },
+  {
+    label: "Our Roots",
+    body: "Family trade in Panangarkandu begins with our family elders in Udangudi / Thoothukudi.",
+  },
+  {
+    label: "Decades of Trade",
+    body: "Supplying bulk pure palm candy consistently to homes and merchants for 25+ years.",
+  },
   { label: "Today", body: "Handling over 2,500 kg of pure Panangarkandu every month." },
-  { label: "D's PANAI", body: "Branded consumer pouches bringing authentic palm sweetener directly to step." },
+  {
+    label: "D's PANAI",
+    body: "Branded consumer pouches bringing authentic palm sweetener directly to step.",
+  },
 ];
 
 function OurStory() {
@@ -76,11 +92,15 @@ function OurStory() {
       <section className="mx-auto grid max-w-[1240px] gap-12 px-6 py-20 md:px-8 lg:grid-cols-2 lg:items-center">
         <Reveal>
           <p className="text-lg leading-relaxed text-muted-foreground">
-            D's PANAI is built on a family trade of selling Panangarkandu that spans over {BRAND.yearsInTrade} years from Udangudi in Thoothukudi district, Tamil Nadu. What began as a traditional trade continues today with the same commitment to natural purity, bringing our illustrated pouch directly to homes.
+            D's PANAI is built on a family trade of selling Panangarkandu that spans over{" "}
+            {BRAND.yearsInTrade} years from Udangudi in Thoothukudi district, Tamil Nadu. What began
+            as a traditional trade continues today with the same commitment to natural purity,
+            bringing our illustrated pouch directly to homes.
           </p>
           <p className="mt-6 text-lg leading-relaxed text-muted-foreground">
             The name unites our founder Divya's initial with{" "}
-            <span className="text-gold font-semibold">Panai</span> — the palmyra palm tree at the heart of our tradition.
+            <span className="text-gold font-semibold">Panai</span> — the palmyra palm tree at the
+            heart of our tradition.
           </p>
           <div className="mt-10">
             <p className="font-display text-6xl text-forest tabular-nums">

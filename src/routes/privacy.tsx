@@ -14,9 +14,15 @@ export const Route = createFileRoute("/privacy")({
       { property: "og:title", content: "Privacy Policy — D's PANAI" },
       { property: "og:description", content: "How we handle your order and contact details." },
       { property: "og:type", content: "article" },
-      { property: "og:image", content: `${BRAND.siteUrl}/assets/images/dspanai-panangarkandu-pack-front.jpg` },
+      {
+        property: "og:image",
+        content: `${BRAND.siteUrl}/assets/images/dspanai-panangarkandu-pack-front.jpg`,
+      },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:image", content: `${BRAND.siteUrl}/assets/images/dspanai-panangarkandu-pack-front.jpg` },
+      {
+        name: "twitter:image",
+        content: `${BRAND.siteUrl}/assets/images/dspanai-panangarkandu-pack-front.jpg`,
+      },
     ],
     links: [{ rel: "canonical", href: `${BRAND.siteUrl}/privacy` }],
     scripts: [

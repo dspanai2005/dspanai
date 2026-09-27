@@ -12,12 +12,10 @@ import { cn } from "@/lib/utils";
 const NAV = [
   { to: "/", label: "Home" },
   { to: "/shop", label: "Shop" },
-  { to: "/track-order", label: "Track order" },
   { to: "/our-story", label: "Our Story" },
-  { to: "/purity", label: "Purity" },
+  { to: "/track-order", label: "Track order" },
   { to: "/contact", label: "Contact" },
 ] as const;
-
 
 function AnnouncementBar() {
   return (
@@ -100,135 +98,137 @@ function Header() {
   return (
     <>
       <header
-      className={cn(
-        "sticky top-0 z-40 transition-all duration-500",
-        scrolled
-          ? "border-b border-border/70 bg-ivory/80 backdrop-blur-xl supports-[backdrop-filter]:bg-cream/70"
-          : "bg-transparent",
-      )}
-    >
-      <div className="mx-auto flex max-w-[1240px] items-center justify-between gap-3 px-4 py-2 md:px-8">
-        <Logo className={cn("transition-all duration-500", scrolled && "h-10 md:h-12")} />
+        className={cn(
+          "sticky top-0 z-40 transition-all duration-500",
+          scrolled
+            ? "border-b border-border/70 bg-ivory/80 backdrop-blur-xl supports-[backdrop-filter]:bg-cream/70"
+            : "bg-transparent",
+        )}
+      >
+        <div className="mx-auto flex max-w-[1240px] items-center justify-between gap-3 px-4 py-2 md:px-8">
+          <Logo className={cn("transition-all duration-500", scrolled && "h-10 md:h-12")} />
 
-        <nav aria-label="Main" className="hidden items-center gap-7 lg:flex">
-          {NAV.map((item) => (
-            <Link
-              key={item.to}
-              to={item.to}
-              activeOptions={{ exact: item.to === "/" }}
-              className="group relative text-sm font-semibold text-forest/85 transition-colors hover:text-forest"
-              activeProps={{ className: "text-forest" }}
-            >
+          <nav aria-label="Main" className="hidden items-center gap-7 lg:flex">
+            {NAV.map((item) => (
+              <Link
+                key={item.to}
+                to={item.to}
+                activeOptions={{ exact: item.to === "/" }}
+                className="group relative text-sm font-semibold text-forest/85 transition-colors hover:text-forest"
+                activeProps={{ className: "text-forest" }}
+              >
+                {item.label}
+                <span className="absolute -bottom-1.5 left-0 h-px w-0 bg-gold transition-all duration-400 group-hover:w-full" />
+              </Link>
+            ))}
+          </nav>
 
-              {item.label}
-              <span className="absolute -bottom-1.5 left-0 h-px w-0 bg-gold transition-all duration-400 group-hover:w-full" />
-            </Link>
-          ))}
-        </nav>
-
-        <div className="flex items-center gap-2">
-          <button
-            type="button"
-            onClick={() => setDrawerOpen(true)}
-            aria-label={`Open cart, ${itemCount} item${itemCount === 1 ? "" : "s"}`}
-            className="relative grid size-11 place-items-center rounded-full text-forest transition-colors hover:bg-cream"
-          >
-            <ShoppingBag className="size-5" />
-            {itemCount > 0 && (
-              <span className="absolute top-1 right-0.5 grid min-w-5 place-items-center rounded-full bg-gold px-1 text-[10px] font-bold text-forest">
-                {itemCount}
-              </span>
-            )}
-          </button>
-
-          <Link
-            to="/product/$slug"
-            params={{ slug: PRODUCT.slug }}
-            className="group hidden items-center gap-2 rounded-full bg-forest px-5 py-3 text-xs font-bold tracking-wide text-primary-foreground uppercase transition-all duration-300 hover:shadow-lift md:inline-flex"
-          >
-            Shop Panangarkandu
-            <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-          </Link>
-
-          <button
-            type="button"
-            onClick={() => setMenuOpen(true)}
-            aria-label="Open menu"
-            aria-expanded={menuOpen}
-            aria-controls="mobile-menu"
-            className="grid size-11 place-items-center rounded-full text-forest transition-colors hover:bg-cream lg:hidden"
-          >
-            <Menu className="size-5" />
-          </button>
-        </div>
-      </div>
-
-      </header>
-      {mounted && createPortal(
-        <div
-          id="mobile-menu"
-          aria-hidden={!menuOpen}
-          className={cn(
-            "fixed inset-0 z-[60] flex min-h-[100dvh] flex-col bg-cream transition-opacity duration-300 lg:hidden",
-            menuOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0",
-          )}
-        >
-          <div className="flex shrink-0 items-center justify-between border-b border-border/60 px-4 py-3">
-            <Logo className="h-10" />
+          <div className="flex items-center gap-2">
             <button
               type="button"
-              onClick={() => setMenuOpen(false)}
-              aria-label="Close menu"
-              className="grid size-11 place-items-center rounded-full text-forest hover:bg-ivory"
+              onClick={() => setDrawerOpen(true)}
+              aria-label={`Open cart, ${itemCount} item${itemCount === 1 ? "" : "s"}`}
+              className="relative grid size-11 place-items-center rounded-full text-forest transition-colors hover:bg-cream"
             >
-              <X className="size-6" />
+              <ShoppingBag className="size-5" />
+              {itemCount > 0 && (
+                <span className="absolute top-1 right-0.5 grid min-w-5 place-items-center rounded-full bg-gold px-1 text-[10px] font-bold text-forest">
+                  {itemCount}
+                </span>
+              )}
             </button>
-          </div>
-          <nav aria-label="Mobile" className="flex-1 overflow-y-auto overscroll-contain px-6 pt-4 pb-2">
-            <ul className="flex flex-col">
-              {NAV.map((item, i) => (
-                <li key={item.to}>
-                  <Link
-                    to={item.to}
-                    activeOptions={{ exact: item.to === "/" }}
-                    onClick={() => setMenuOpen(false)}
-                    className="flex items-baseline justify-between gap-3 border-b border-border/60 py-4 text-forest"
-                    activeProps={{ className: "text-gold" }}
-                    style={{
-                      transition: "opacity .4s, transform .4s",
-                      transitionDelay: `${60 + i * 45}ms`,
-                      opacity: menuOpen ? 1 : 0,
-                      transform: menuOpen ? "none" : "translateY(10px)",
-                    }}
-                  >
-                    <span className="font-display text-2xl leading-none">{item.label}</span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
-          <div className="shrink-0 space-y-3 border-t border-border/60 px-6 py-5">
+
             <Link
               to="/product/$slug"
               params={{ slug: PRODUCT.slug }}
-              onClick={() => setMenuOpen(false)}
-              className="flex w-full items-center justify-center gap-2 rounded-full bg-forest px-6 py-3.5 text-xs font-bold tracking-wide text-primary-foreground uppercase"
+              className="group hidden items-center gap-2 rounded-full bg-forest px-5 py-3 text-xs font-bold tracking-wide text-primary-foreground uppercase transition-all duration-300 hover:shadow-lift md:inline-flex"
             >
               Shop Panangarkandu
+              <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
             </Link>
-            <a
-              href={BRAND.whatsappLink}
-              target="_blank"
-              rel="noreferrer"
-              className="flex w-full items-center justify-center gap-2 rounded-full border border-forest/25 px-6 py-3.5 text-sm font-bold text-forest"
+
+            <button
+              type="button"
+              onClick={() => setMenuOpen(true)}
+              aria-label="Open menu"
+              aria-expanded={menuOpen}
+              aria-controls="mobile-menu"
+              className="grid size-11 place-items-center rounded-full text-forest transition-colors hover:bg-cream lg:hidden"
             >
-              <WhatsAppIcon className="size-5" />
-              Order on WhatsApp
-            </a>
+              <Menu className="size-5" />
+            </button>
           </div>
-        </div>,
-        document.body,
-      )}
+        </div>
+      </header>
+      {mounted &&
+        createPortal(
+          <div
+            id="mobile-menu"
+            aria-hidden={!menuOpen}
+            className={cn(
+              "fixed inset-0 z-[60] flex min-h-[100dvh] flex-col bg-cream transition-opacity duration-300 lg:hidden",
+              menuOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0",
+            )}
+          >
+            <div className="flex shrink-0 items-center justify-between border-b border-border/60 px-4 py-3">
+              <Logo className="h-10" />
+              <button
+                type="button"
+                onClick={() => setMenuOpen(false)}
+                aria-label="Close menu"
+                className="grid size-11 place-items-center rounded-full text-forest hover:bg-ivory"
+              >
+                <X className="size-6" />
+              </button>
+            </div>
+            <nav
+              aria-label="Mobile"
+              className="flex-1 overflow-y-auto overscroll-contain px-6 pt-4 pb-2"
+            >
+              <ul className="flex flex-col">
+                {NAV.map((item, i) => (
+                  <li key={item.to}>
+                    <Link
+                      to={item.to}
+                      activeOptions={{ exact: item.to === "/" }}
+                      onClick={() => setMenuOpen(false)}
+                      className="flex items-baseline justify-between gap-3 border-b border-border/60 py-4 text-forest"
+                      activeProps={{ className: "text-gold" }}
+                      style={{
+                        transition: "opacity .4s, transform .4s",
+                        transitionDelay: `${60 + i * 45}ms`,
+                        opacity: menuOpen ? 1 : 0,
+                        transform: menuOpen ? "none" : "translateY(10px)",
+                      }}
+                    >
+                      <span className="font-display text-2xl leading-none">{item.label}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+            <div className="shrink-0 space-y-3 border-t border-border/60 px-6 py-5">
+              <Link
+                to="/product/$slug"
+                params={{ slug: PRODUCT.slug }}
+                onClick={() => setMenuOpen(false)}
+                className="flex w-full items-center justify-center gap-2 rounded-full bg-forest px-6 py-3.5 text-xs font-bold tracking-wide text-primary-foreground uppercase"
+              >
+                Shop Panangarkandu
+              </Link>
+              <a
+                href={BRAND.whatsappLink}
+                target="_blank"
+                rel="noreferrer"
+                className="flex w-full items-center justify-center gap-2 rounded-full border border-forest/25 px-6 py-3.5 text-sm font-bold text-forest"
+              >
+                <WhatsAppIcon className="size-5" />
+                Order on WhatsApp
+              </a>
+            </div>
+          </div>,
+          document.body,
+        )}
     </>
   );
 }
@@ -301,13 +301,7 @@ function Footer() {
   );
 }
 
-function FooterCol({
-  title,
-  links,
-}: {
-  title: string;
-  links: { to: string; label: string }[];
-}) {
+function FooterCol({ title, links }: { title: string; links: { to: string; label: string }[] }) {
   return (
     <div>
       <h4 className="eyebrow">{title}</h4>

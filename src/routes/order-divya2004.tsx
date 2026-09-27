@@ -40,7 +40,9 @@ const STATUS_CLASS: Record<OrderStatus, string> = {
 
 function driveThumbnailUrl(fileUrl: string): string | null {
   const fileId = fileUrl.match(/(?:\/d\/|[?&]id=)([^/?&]+)/)?.[1];
-  return fileId ? `https://drive.google.com/thumbnail?id=${encodeURIComponent(fileId)}&sz=w320` : null;
+  return fileId
+    ? `https://drive.google.com/thumbnail?id=${encodeURIComponent(fileId)}&sz=w320`
+    : null;
 }
 
 function Dashboard() {
@@ -76,8 +78,7 @@ function Dashboard() {
   });
 
   const statusMutation = useMutation({
-    mutationFn: (vars: { orderId: string; status: OrderStatus }) =>
-      updateStatus({ data: vars }),
+    mutationFn: (vars: { orderId: string; status: OrderStatus }) => updateStatus({ data: vars }),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["admin-orders"] }),
   });
 
@@ -237,7 +238,16 @@ function Dashboard() {
         <table className="w-full min-w-[1050px] text-left text-sm">
           <thead className="bg-ivory text-xs tracking-wide text-warm uppercase">
             <tr>
-              {["Order", "Customer", "Items", "Delivery", "Total", "Status", "Payment", "Invoice"].map((h) => (
+              {[
+                "Order",
+                "Customer",
+                "Items",
+                "Delivery",
+                "Total",
+                "Status",
+                "Payment",
+                "Invoice",
+              ].map((h) => (
                 <th key={h} className="px-4 py-3 font-semibold">
                   {h}
                 </th>
@@ -300,13 +310,23 @@ function Dashboard() {
                   </select>
                 </td>
                 <td className="px-4 py-4 text-xs">
-                  <p className={cn("font-bold", o.paymentStatus === "Proof uploaded" ? "text-emerald-700" : "text-warm")}>
+                  <p
+                    className={cn(
+                      "font-bold",
+                      o.paymentStatus === "Proof uploaded" ? "text-emerald-700" : "text-warm",
+                    )}
+                  >
                     {o.paymentStatus || "Not paid"}
                   </p>
                   {o.paymentProofUrl && (
                     <>
                       {driveThumbnailUrl(o.paymentProofUrl) && (
-                        <a href={o.paymentProofUrl} target="_blank" rel="noreferrer" className="mt-2 block w-fit">
+                        <a
+                          href={o.paymentProofUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="mt-2 block w-fit"
+                        >
                           <img
                             src={driveThumbnailUrl(o.paymentProofUrl)!}
                             alt={`Payment proof for ${o.orderId}`}

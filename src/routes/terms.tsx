@@ -14,9 +14,15 @@ export const Route = createFileRoute("/terms")({
       { property: "og:title", content: "Terms & Conditions — D's PANAI" },
       { property: "og:description", content: "Terms that apply to orders placed with D's PANAI." },
       { property: "og:type", content: "article" },
-      { property: "og:image", content: `${BRAND.siteUrl}/assets/images/dspanai-panangarkandu-pack-front.jpg` },
+      {
+        property: "og:image",
+        content: `${BRAND.siteUrl}/assets/images/dspanai-panangarkandu-pack-front.jpg`,
+      },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:image", content: `${BRAND.siteUrl}/assets/images/dspanai-panangarkandu-pack-front.jpg` },
+      {
+        name: "twitter:image",
+        content: `${BRAND.siteUrl}/assets/images/dspanai-panangarkandu-pack-front.jpg`,
+      },
     ],
     links: [{ rel: "canonical", href: `${BRAND.siteUrl}/terms` }],
     scripts: [

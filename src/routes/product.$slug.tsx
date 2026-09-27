@@ -1,5 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useState } from "react";
+import { ArrowRight, Leaf, PackageCheck, Truck } from "lucide-react";
 import { WhatsAppIcon } from "@/components/Brand";
 import { QuantitySelector } from "@/components/QuantitySelector";
 import { Reveal } from "@/components/Reveal";
@@ -27,9 +28,15 @@ export const Route = createFileRoute("/product/$slug")({
           "Traditional Tamil Panangarkandu with naturally formed crystals, packed in our illustrated D's PANAI pouch.",
       },
       { property: "og:type", content: "product" },
-      { property: "og:image", content: `${BRAND.siteUrl}/assets/images/dspanai-panangarkandu-pack-front.jpg` },
+      {
+        property: "og:image",
+        content: `${BRAND.siteUrl}/assets/images/dspanai-panangarkandu-pack-front.jpg`,
+      },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:image", content: `${BRAND.siteUrl}/assets/images/dspanai-panangarkandu-pack-front.jpg` },
+      {
+        name: "twitter:image",
+        content: `${BRAND.siteUrl}/assets/images/dspanai-panangarkandu-pack-front.jpg`,
+      },
     ],
     links: [{ rel: "canonical", href: `${BRAND.siteUrl}/product/panangarkandu` }],
     scripts: [
@@ -70,18 +77,8 @@ export const Route = createFileRoute("/product/$slug")({
           "@context": "https://schema.org",
           "@type": "BreadcrumbList",
           itemListElement: [
-            {
-              "@type": "ListItem",
-              position: 1,
-              name: "Home",
-              item: BRAND.siteUrl,
-            },
-            {
-              "@type": "ListItem",
-              position: 2,
-              name: "Shop",
-              item: `${BRAND.siteUrl}/shop`,
-            },
+            { "@type": "ListItem", position: 1, name: "Home", item: BRAND.siteUrl },
+            { "@type": "ListItem", position: 2, name: "Shop", item: `${BRAND.siteUrl}/shop` },
             {
               "@type": "ListItem",
               position: 3,
@@ -96,27 +93,11 @@ export const Route = createFileRoute("/product/$slug")({
   component: ProductPage,
 });
 
-const DETAIL_SECTIONS = [
-  {
-    title: "What is Panangarkandu?",
-    body: "Panangarkandu (also called Panakarkandu or palm candy) is a traditional crystalline sweetener produced by evaporating the sap of the palmyra palm (Borassus flabellifer). The sap is boiled down slowly and left to crystallize naturally over time. It has been used for generations in Tamil culinary tradition.",
-  },
-  {
-    title: "Packaging & Heritage",
-    body: "Each pouch is packed in our illustrated D's PANAI stand-up zipper bag, featuring palm tree artwork and origin details from Udangudi / Thoothukudi, Tamil Nadu, India.",
-  },
-  {
-    title: "Natural Crystal Variation Notice",
-    body: "Because Panangarkandu is a 100% natural, unrefined sweetener, individual crystals naturally vary in size, color gradient (ranging from light honey to deep amber), and shape from batch to batch. This variation is a mark of authentic palm sap crystallization.",
-  },
-  {
-    title: "Recommended Storage",
-    body: "Store in a cool, dry pantry away from direct moisture and humidity. Once opened, keep the pouch zipper securely closed or transfer crystals to a clean glass/ceramic kitchen container.",
-  },
-  {
-    title: "Everyday Culinary Uses",
-    body: "Stir into degree filter coffee or tea, mix with warm milk, blend into traditional Tamil beverages, or consume as a natural sweetener.",
-  },
+const PRODUCT_DETAILS = [
+  { label: "Origin", value: "Udangudi / Thoothukudi, Tamil Nadu" },
+  { label: "Package", value: "Illustrated stand-up pouch with resealable zip" },
+  { label: "Best use", value: "Filter coffee, tea, warm milk, and everyday sweetening" },
+  { label: "Storage", value: "Cool, dry place with the pouch tightly closed" },
 ];
 
 function ProductPage() {
@@ -125,11 +106,10 @@ function ProductPage() {
   const [qty, setQty] = useState(1);
   const [active, setActive] = useState(0);
   const [zoom, setZoom] = useState(false);
-  const gallery = PRODUCT.gallery;
-  const current = gallery[active]!;
+  const current = PRODUCT.gallery[active]!;
 
   return (
-    <div className="pb-28 md:pb-16">
+    <div className="pb-20 md:pb-16">
       <nav aria-label="Breadcrumb" className="mx-auto max-w-[1240px] px-6 pt-8 md:px-8">
         <ol className="flex items-center gap-2 text-xs text-muted-foreground">
           <li>
@@ -137,22 +117,26 @@ function ProductPage() {
               Home
             </Link>
           </li>
-          <li aria-hidden="true" className="text-gold">/</li>
+          <li aria-hidden="true" className="text-gold">
+            /
+          </li>
           <li>
             <Link to="/shop" className="transition-colors hover:text-forest">
               Shop
             </Link>
           </li>
-          <li aria-hidden="true" className="text-gold">/</li>
+          <li aria-hidden="true" className="text-gold">
+            /
+          </li>
           <li className="font-semibold text-forest">Pure Panangarkandu</li>
         </ol>
       </nav>
 
-      <div className="mx-auto grid max-w-[1240px] gap-12 px-6 py-10 md:px-8 lg:grid-cols-[1.05fr_1fr]">
+      <div className="mx-auto grid max-w-[1240px] gap-12 px-6 py-10 md:px-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
         <div className="min-w-0">
           <div
             onClick={() => setZoom((v) => !v)}
-            className="group relative overflow-hidden rounded-3xl border border-border bg-card shadow-soft"
+            className="group relative overflow-hidden rounded-[2rem] border border-border bg-white p-3 shadow-soft"
           >
             <img
               src={current.src}
@@ -161,127 +145,151 @@ function ProductPage() {
               height={1024}
               decoding="async"
               className={cn(
-                "aspect-square w-full cursor-zoom-in object-cover transition-transform duration-[900ms]",
+                "aspect-square w-full cursor-zoom-in object-cover transition-transform duration-700",
                 zoom && "scale-150 cursor-zoom-out",
               )}
             />
-            <span className="absolute top-4 right-4 rounded-full bg-ivory/90 px-3 py-1 text-[11px] font-semibold text-warm backdrop-blur">
-              {zoom ? "Click to reset" : "Click to zoom"}
+            <span className="absolute top-4 right-4 rounded-full bg-ivory/90 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-warm backdrop-blur">
+              {zoom ? "Reset" : "Zoom"}
             </span>
           </div>
 
           <div className="mt-4 flex gap-3 overflow-x-auto pb-2">
-            {gallery.map((img, i) => (
+            {PRODUCT.gallery.map((img, i) => (
               <button
-                key={img.src + i}
+                key={`${img.src}-${i}`}
                 type="button"
                 onClick={() => {
                   setActive(i);
                   setZoom(false);
                 }}
-                aria-label={`View product gallery image ${i + 1}`}
+                aria-label={`View gallery image ${i + 1}`}
                 aria-current={i === active}
                 className={cn(
                   "size-20 shrink-0 overflow-hidden rounded-xl border-2 transition-all",
-                  i === active ? "border-gold shadow-sm scale-95" : "border-transparent opacity-70 hover:opacity-100",
+                  i === active
+                    ? "scale-95 border-gold"
+                    : "border-transparent opacity-70 hover:opacity-100",
                 )}
               >
-                <img src={img.src} alt={img.alt} loading="lazy" decoding="async" className="size-full object-cover" />
+                <img
+                  src={img.src}
+                  alt={img.alt}
+                  loading="lazy"
+                  decoding="async"
+                  className="size-full object-cover"
+                />
               </button>
             ))}
           </div>
         </div>
 
         <div>
-          <span className="status-pill border border-gold/30 bg-cream/70 text-earth">
-            Authentic Palmyra Sap
-          </span>
-          <h1 className="mt-3 font-display text-[clamp(2rem,4.6vw,3.25rem)] leading-tight text-forest">
+          <p className="inline-flex rounded-full border border-gold/30 bg-cream/70 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-earth">
+            authentic palmyra sap
+          </p>
+          <h1 className="mt-4 font-display text-[clamp(2.2rem,5vw,3.5rem)] leading-tight text-forest">
             {PRODUCT.name}
           </h1>
-          <p className="font-tamil mt-2 text-xl text-gold">{PRODUCT.tamilName}</p>
+          <p className="mt-2 font-tamil text-xl text-gold">{PRODUCT.tamilName}</p>
+          <div className="mt-6 flex items-end gap-3">
+            <p className="font-display text-4xl text-forest">{formatINR(calculatePrice(weight))}</p>
+            <p className="text-sm text-muted-foreground">for {formatWeight(weight)}</p>
+          </div>
           <p className="mt-5 text-base leading-relaxed text-muted-foreground">
             {PRODUCT.longDescription}
           </p>
 
-          <div className="my-8 rule-gold" />
-
-          <QuantitySelector
-            weightGrams={weight}
-            onWeightChange={setWeight}
-            quantity={qty}
-            onQuantityChange={setQty}
-          />
-
-          <div className="mt-8 flex flex-wrap gap-3">
-            <button
-              type="button"
-              onClick={() => addLine(weight, qty)}
-              className="group inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-forest px-7 py-4 text-sm font-bold tracking-wide text-primary-foreground uppercase transition-all duration-300 hover:shadow-lift"
-            >
-              Add to cart
-              <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-            </button>
-            <a
-              href={BRAND.whatsappLink}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center justify-center gap-2 rounded-full border border-forest/25 px-6 py-4 text-sm font-bold tracking-wide text-forest uppercase transition-colors hover:border-gold hover:bg-cream"
-            >
-              <WhatsAppIcon className="size-4" />
-              Ask us on WhatsApp
-            </a>
+          <div className="mt-8 rounded-[1.5rem] border border-border bg-white p-5 shadow-soft">
+            <QuantitySelector
+              weightGrams={weight}
+              onWeightChange={setWeight}
+              quantity={qty}
+              onQuantityChange={setQty}
+            />
+            <div className="mt-8 flex flex-wrap gap-3">
+              <button
+                type="button"
+                onClick={() => addLine(weight, qty)}
+                className="group inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-forest px-6 py-4 text-sm font-bold tracking-[0.14em] text-primary-foreground uppercase transition-transform hover:-translate-y-0.5"
+              >
+                Add to cart
+                <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
+              </button>
+              <a
+                href={BRAND.whatsappLink}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-forest/20 bg-cream px-6 py-4 text-sm font-bold tracking-[0.14em] text-forest uppercase transition-colors hover:border-gold hover:bg-white"
+              >
+                <WhatsAppIcon className="size-4" />
+                WhatsApp
+              </a>
+            </div>
           </div>
 
-          <dl className="mt-10 divide-y divide-border border-y border-border">
-            {DETAIL_SECTIONS.map((s) => (
-              <div key={s.title} className="py-5">
-                <dt className="font-display text-xl text-forest">{s.title}</dt>
-                <dd className="mt-2 text-sm leading-relaxed text-muted-foreground">{s.body}</dd>
+          <div className="mt-10 grid gap-4 sm:grid-cols-2">
+            {PRODUCT_DETAILS.map((item) => (
+              <div key={item.label} className="rounded-2xl border border-border bg-cream/50 p-4">
+                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-warm">
+                  {item.label}
+                </p>
+                <p className="mt-2 text-sm leading-relaxed text-forest">{item.value}</p>
               </div>
             ))}
-          </dl>
+          </div>
         </div>
       </div>
 
-      <div className="mx-auto max-w-[1240px] px-6 md:px-8">
-        <Reveal className="surface-card p-8 text-center">
-          <h2 className="font-display text-2xl text-forest">Need bulk quantities for family functions or wholesale?</h2>
-          <p className="mt-2 text-sm text-muted-foreground">
-            We regularly handle {BRAND.monthlyVolumeKg.toLocaleString("en-IN")}+ kg every month for wholesale and bulk orders. Message us on WhatsApp to discuss bulk rates and dispatch timelines.
+      <section className="mx-auto mt-10 max-w-[1240px] px-6 md:px-8">
+        <div className="grid gap-4 md:grid-cols-3">
+          {[
+            {
+              icon: Leaf,
+              title: "Natural crystals",
+              text: "Naturally formed from palm sap with no artificial color.",
+            },
+            {
+              icon: PackageCheck,
+              title: "Freshly packed",
+              text: "Sealed in an illustrated D's PANAI pouch for freshness.",
+            },
+            {
+              icon: Truck,
+              title: "Free shipping",
+              text: "Delivery across India and worldwide, with easy WhatsApp support.",
+            },
+          ].map((item) => (
+            <Reveal key={item.title} className="surface-card p-5">
+              <item.icon className="size-6 text-palm" strokeWidth={1.5} />
+              <h3 className="mt-4 text-lg text-forest">{item.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.text}</p>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      <section className="mx-auto mt-16 max-w-[1240px] px-6 md:px-8">
+        <Reveal className="rounded-[2rem] border border-border bg-cream/50 p-8 text-center">
+          <p className="section-label">Bulk orders</p>
+          <h2 className="mt-5 font-display text-[clamp(2rem,4vw,2.8rem)] text-forest">
+            Need more than a family pouch?
+          </h2>
+          <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground">
+            We regularly handle more than {BRAND.monthlyVolumeKg.toLocaleString("en-IN")} kg every
+            month for households, gifting, and larger family requirements.
           </p>
           <a
             href={BRAND.whatsappLink}
             target="_blank"
             rel="noreferrer"
-            className="mt-5 inline-flex items-center gap-2 rounded-full bg-forest px-7 py-3.5 text-sm font-bold text-primary-foreground uppercase tracking-wide transition-transform hover:scale-[1.02]"
+            className="mt-7 inline-flex items-center gap-2 rounded-full bg-forest px-7 py-4 text-sm font-bold tracking-[0.14em] text-primary-foreground uppercase transition-transform hover:-translate-y-0.5"
           >
             <WhatsAppIcon className="size-4" />
             Talk to us on WhatsApp
           </a>
         </Reveal>
-      </div>
-
-      {/* Sticky mobile CTA */}
-      <div className="fixed inset-x-0 bottom-0 z-30 border-t border-border bg-ivory/95 px-4 py-3 backdrop-blur-xl md:hidden">
-        <div className="flex items-center gap-3">
-          <div className="shrink-0">
-            <p className="text-[11px] font-semibold text-warm">
-              {formatWeight(weight)} × {qty}
-            </p>
-            <p className="font-display text-xl leading-none text-forest tabular-nums">
-              {formatINR(calculatePrice(weight) * qty)}
-            </p>
-          </div>
-          <button
-            type="button"
-            onClick={() => addLine(weight, qty)}
-            className="flex-1 rounded-full bg-forest px-5 py-3.5 text-sm font-bold tracking-wide text-primary-foreground uppercase"
-          >
-            Add to cart
-          </button>
-        </div>
-      </div>
+      </section>
     </div>
   );
 }

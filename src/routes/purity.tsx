@@ -14,12 +14,19 @@ export const Route = createFileRoute("/purity")({
       { property: "og:title", content: "Pure Panangarkandu — Authentic Tamil Palm Sweetener" },
       {
         property: "og:description",
-        content: "Our commitment to single-product focus, natural palmyra sap crystals, and transparent standards.",
+        content:
+          "Our commitment to single-product focus, natural palmyra sap crystals, and transparent standards.",
       },
       { property: "og:type", content: "article" },
-      { property: "og:image", content: `${BRAND.siteUrl}/assets/images/dspanai-panangarkandu-purity-ice-concept.jpg` },
+      {
+        property: "og:image",
+        content: `${BRAND.siteUrl}/assets/images/dspanai-panangarkandu-purity-ice-concept.jpg`,
+      },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:image", content: `${BRAND.siteUrl}/assets/images/dspanai-panangarkandu-purity-ice-concept.jpg` },
+      {
+        name: "twitter:image",
+        content: `${BRAND.siteUrl}/assets/images/dspanai-panangarkandu-purity-ice-concept.jpg`,
+      },
     ],
     links: [{ rel: "canonical", href: `${BRAND.siteUrl}/purity` }],
     scripts: [
@@ -85,7 +92,8 @@ function Purity() {
           One product. One tradition.
         </h1>
         <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">
-          Panangarkandu is a natural sweetener with a rich heritage in Tamil cuisine. We present it facts-first, keeping our standards clear and honest.
+          Panangarkandu is a natural sweetener with a rich heritage in Tamil cuisine. We present it
+          facts-first, keeping our standards clear and honest.
         </p>
       </section>
 
@@ -121,10 +129,13 @@ function Purity() {
               Honest & Defensible Standards
             </h2>
             <p className="mt-5 text-base leading-relaxed text-muted-foreground">
-              Panangarkandu is an unrefined natural sweetener with a long history of use in Tamil households. It is a traditional kitchen ingredient. We never claim it cures disease, is low-calorie, or acts as a medical drug.
+              Panangarkandu is an unrefined natural sweetener with a long history of use in Tamil
+              households. It is a traditional kitchen ingredient. We never claim it cures disease,
+              is low-calorie, or acts as a medical drug.
             </p>
             <p className="mt-5 text-base leading-relaxed text-muted-foreground">
-              Our packaging is clearly illustrated on every pouch, sealed securely to keep your palm candy clean and fresh.
+              Our packaging is clearly illustrated on every pouch, sealed securely to keep your palm
+              candy clean and fresh.
             </p>
             <Link
               to="/product/$slug"

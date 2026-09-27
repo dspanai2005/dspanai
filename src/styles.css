@@ -56,15 +56,15 @@
 :root {
   --radius: 0.875rem;
 
-  --cream: #F7F0E4;
-  --ivory: #FFFDF8;
-  --palm: #3A322C;
-  --forest: #1A1714;
-  --gold: #B4601F;
-  --earth: #8C5A28;
-  --warm: #8A7B6B;
-  --sand: #E0B872;
-  --ink: #1A1714;
+  --cream: #f7f0e4;
+  --ivory: #fffdf8;
+  --palm: #3a322c;
+  --forest: #1a1714;
+  --gold: #b4601f;
+  --earth: #8c5a28;
+  --warm: #8a7b6b;
+  --sand: #e0b872;
+  --ink: #1a1714;
 
   --background: var(--ivory);
   --foreground: var(--ink);
@@ -73,22 +73,22 @@
   --popover: var(--ivory);
   --popover-foreground: var(--ink);
   --primary: var(--forest);
-  --primary-foreground: #FFFDF8;
+  --primary-foreground: #fffdf8;
   --secondary: var(--cream);
   --secondary-foreground: var(--forest);
   --muted: var(--cream);
-  --muted-foreground: #6F6459;
+  --muted-foreground: #6f6459;
   --accent: var(--sand);
   --accent-foreground: var(--forest);
   --destructive: oklch(0.55 0.19 27);
-  --destructive-foreground: #FFFDF8;
-  --border: #E8DFCF;
-  --input: #E8DFCF;
+  --destructive-foreground: #fffdf8;
+  --border: #e8dfcf;
+  --input: #e8dfcf;
   --ring: var(--gold);
 
   --gradient-cream: linear-gradient(180deg, var(--ivory) 0%, var(--cream) 100%);
   --gradient-forest: linear-gradient(135deg, var(--forest) 0%, var(--palm) 100%);
-  --gradient-gold: linear-gradient(100deg, var(--gold) 0%, #E0B872 50%, var(--gold) 100%);
+  --gradient-gold: linear-gradient(100deg, var(--gold) 0%, #e0b872 50%, var(--gold) 100%);
 }
 
 @layer base {
@@ -153,6 +153,34 @@
   border: 1px solid var(--color-border);
   border-radius: var(--radius-2xl);
   box-shadow: var(--shadow-soft);
+}
+
+.brand-card,
+.brand-photo {
+  transform-style: preserve-3d;
+  transition:
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.3s ease;
+  will-change: transform;
+}
+
+.brand-card {
+  perspective: 1200px;
+}
+
+.brand-card:hover,
+.brand-photo:hover {
+  transform: translateY(-8px) rotateX(4deg) rotateY(-3deg);
+  box-shadow: 0 24px 44px -28px rgba(26, 23, 20, 0.32);
+}
+
+.brand-photo {
+  transform-origin: center;
+}
+
+.brand-photo:hover {
+  transform: perspective(1200px) rotateX(3deg) rotateY(-4deg) translateY(-6px) scale(1.01);
 }
 
 /* --- Reveal on scroll --- */
@@ -261,56 +289,135 @@ body[data-menu-open] .wa-float {
 
 /* --- Motion & polish --- */
 @keyframes marquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
 }
 @keyframes floaty {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
 @keyframes pulseGlow {
-  0%, 100% { box-shadow: 0 0 0 0 rgb(180 96 31 / 0.38); }
-  50% { box-shadow: 0 0 0 14px rgb(180 96 31 / 0); }
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgb(180 96 31 / 0.38);
+  }
+  50% {
+    box-shadow: 0 0 0 14px rgb(180 96 31 / 0);
+  }
 }
 @keyframes spinSlow {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 @keyframes brandHeaderEnter {
-  from { opacity: 0; transform: translateY(-14px); }
-  to { opacity: 1; transform: none; }
+  from {
+    opacity: 0;
+    transform: translateY(-14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 @keyframes brandMarkEnter {
-  0% { opacity: 0; transform: scale(0.72) rotate(-5deg); }
-  70% { opacity: 1; transform: scale(1.06) rotate(1deg); }
-  100% { opacity: 1; transform: none; }
+  0% {
+    opacity: 0;
+    transform: scale(0.72) rotate(-5deg);
+  }
+  70% {
+    opacity: 1;
+    transform: scale(1.06) rotate(1deg);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
 }
 @keyframes brandCopyEnter {
-  from { opacity: 0; transform: translateX(-10px); }
-  to { opacity: 1; transform: none; }
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 @keyframes loaderLeave {
-  0%, 78% { opacity: 1; visibility: visible; }
-  100% { opacity: 0; visibility: hidden; }
+  0%,
+  78% {
+    opacity: 1;
+    visibility: visible;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
 }
 @keyframes loaderLogoRise {
-  0% { opacity: 0; transform: translateY(42px) scale(0.18); filter: blur(5px); }
-  48% { opacity: 1; transform: translateY(0) scale(1.06); filter: blur(0); }
-  72% { transform: rotate(-2deg) scale(1); }
-  86% { transform: rotate(1.5deg) scale(1); }
-  100% { opacity: 1; transform: none; filter: blur(0); }
+  0% {
+    opacity: 0;
+    transform: translateY(42px) scale(0.18);
+    filter: blur(5px);
+  }
+  48% {
+    opacity: 1;
+    transform: translateY(0) scale(1.06);
+    filter: blur(0);
+  }
+  72% {
+    transform: rotate(-2deg) scale(1);
+  }
+  86% {
+    transform: rotate(1.5deg) scale(1);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+  }
 }
 @keyframes treeReveal {
-  from { clip-path: inset(100% 0 0 0); }
-  to { clip-path: inset(0 0 0 0); }
+  from {
+    clip-path: inset(100% 0 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
 }
 @keyframes crystalSettle {
-  0% { opacity: 0; transform: translateY(-24px) rotate(45deg) scale(0.35); }
-  65% { opacity: 1; transform: translateY(3px) rotate(48deg) scale(1.1); }
-  100% { opacity: 0; transform: translateY(12px) rotate(45deg) scale(0.75); }
+  0% {
+    opacity: 0;
+    transform: translateY(-24px) rotate(45deg) scale(0.35);
+  }
+  65% {
+    opacity: 1;
+    transform: translateY(3px) rotate(48deg) scale(1.1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(12px) rotate(45deg) scale(0.75);
+  }
 }
-@utility animate-marquee { animation: marquee 26s linear infinite; }
-@utility animate-floaty { animation: floaty 6s ease-in-out infinite; }
-@utility animate-glow { animation: pulseGlow 2.8s ease-out infinite; }
+@utility animate-marquee {
+  animation: marquee 26s linear infinite;
+}
+@utility animate-floaty {
+  animation: floaty 6s ease-in-out infinite;
+}
+@utility animate-glow {
+  animation: pulseGlow 2.8s ease-out infinite;
+}
 
 .order-loading {
   display: flex;
@@ -352,12 +459,22 @@ body[data-menu-open] .wa-float {
   background: var(--color-forest);
 }
 
-.order-loading__leaf--one { top: 0.25rem; left: 0.3rem; transform: rotate(28deg); }
-.order-loading__leaf--two { right: 0.1rem; bottom: 0.4rem; transform: rotate(208deg); }
-@utility animate-spin-slow { animation: spinSlow 40s linear infinite; }
+.order-loading__leaf--one {
+  top: 0.25rem;
+  left: 0.3rem;
+  transform: rotate(28deg);
+}
+.order-loading__leaf--two {
+  right: 0.1rem;
+  bottom: 0.4rem;
+  transform: rotate(208deg);
+}
+@utility animate-spin-slow {
+  animation: spinSlow 40s linear infinite;
+}
 
 @utility text-gradient {
-  background: linear-gradient(96deg, #1A1714 0%, #B4601F 55%, #E0B872 100%);
+  background: linear-gradient(96deg, #1a1714 0%, #b4601f 55%, #e0b872 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -382,7 +499,12 @@ body[data-menu-open] .wa-float {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(115deg, transparent 30%, rgb(255 255 255 / 0.35) 50%, transparent 70%);
+  background: linear-gradient(
+    115deg,
+    transparent 30%,
+    rgb(255 255 255 / 0.35) 50%,
+    transparent 70%
+  );
   background-size: 200% 100%;
   animation: shimmer 5s linear infinite;
   pointer-events: none;
@@ -450,9 +572,20 @@ body[data-menu-open] .wa-float {
   transform: rotate(45deg);
   animation: crystalSettle 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
-.brand-loader__candy span:nth-child(1) { left: 0.2rem; animation-delay: 0.28s; }
-.brand-loader__candy span:nth-child(2) { left: 3.25rem; top: -0.7rem; animation-delay: 0.42s; }
-.brand-loader__candy span:nth-child(3) { right: 0.15rem; top: 0.2rem; animation-delay: 0.55s; }
+.brand-loader__candy span:nth-child(1) {
+  left: 0.2rem;
+  animation-delay: 0.28s;
+}
+.brand-loader__candy span:nth-child(2) {
+  left: 3.25rem;
+  top: -0.7rem;
+  animation-delay: 0.42s;
+}
+.brand-loader__candy span:nth-child(3) {
+  right: 0.15rem;
+  top: 0.2rem;
+  animation-delay: 0.55s;
+}
 .brand-loader__copy {
   z-index: 1;
   margin-top: 0.8rem;

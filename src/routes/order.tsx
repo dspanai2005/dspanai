@@ -2,18 +2,22 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Check, Loader2, Upload } from "lucide-react";
 import { OrderLoading } from "@/components/OrderLoading";
+import { EMPTY_DETAILS, useCart, type CustomerDetails, type ShippingDestination } from "@/lib/cart";
 import {
-  EMPTY_DETAILS,
-  useCart,
-  type CustomerDetails,
-  type ShippingDestination,
-} from "@/lib/cart";
-import { BRAND, PRODUCT_IMAGES, PRODUCT, calculatePrice, formatINR, formatWeight } from "@/lib/product";
+  BRAND,
+  PRODUCT_IMAGES,
+  PRODUCT,
+  calculatePrice,
+  formatINR,
+  formatWeight,
+} from "@/lib/product";
 import { cn } from "@/lib/utils";
 
 const APPS_SCRIPT_URL = (import.meta.env.VITE_APPS_SCRIPT_URL ?? "").trim();
 
-async function submitToAppsScript<T>(payload: Record<string, string | number | boolean | undefined>): Promise<T> {
+async function submitToAppsScript<T>(
+  payload: Record<string, string | number | boolean | undefined>,
+): Promise<T> {
   if (!APPS_SCRIPT_URL) {
     throw new Error("Order system is not connected yet (missing VITE_APPS_SCRIPT_URL).");
   }
@@ -32,7 +36,15 @@ async function submitToAppsScript<T>(payload: Record<string, string | number | b
   });
 
   const text = await res.text();
-  let data: { success?: boolean; ok?: boolean; error?: string; orderId?: string; emailedCustomer?: boolean; paymentStatus?: string; paymentProofUrl?: string };
+  let data: {
+    success?: boolean;
+    ok?: boolean;
+    error?: string;
+    orderId?: string;
+    emailedCustomer?: boolean;
+    paymentStatus?: string;
+    paymentProofUrl?: string;
+  };
 
   try {
     data = JSON.parse(text);
@@ -63,7 +75,10 @@ export const Route = createFileRoute("/order")({
           "Review your order, get a unique order ID, and receive your invoice by email. No online payment required.",
       },
       { property: "og:type", content: "website" },
-      { property: "og:image", content: `${BRAND.siteUrl}/assets/images/dspanai-panangarkandu-pack-front.jpg` },
+      {
+        property: "og:image",
+        content: `${BRAND.siteUrl}/assets/images/dspanai-panangarkandu-pack-front.jpg`,
+      },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [{ rel: "canonical", href: `${BRAND.siteUrl}/order` }],
@@ -80,8 +95,7 @@ const REQUIRED: (keyof CustomerDetails)[] = [
   "pincode",
 ];
 
-const PAYMENT_QR_URL =
-  "/assets/images/dspanai-payment-qr.png";
+const PAYMENT_QR_URL = "/assets/images/dspanai-payment-qr.png";
 
 type FieldDef = {
   key: keyof CustomerDetails;
@@ -112,7 +126,13 @@ const FIELDS: FieldDef[] = [
       ],
     },
   },
-  { key: "instructions", label: "Delivery instructions", span: true, textarea: true, optional: true },
+  {
+    key: "instructions",
+    label: "Delivery instructions",
+    span: true,
+    textarea: true,
+    optional: true,
+  },
 ];
 
 function OrderPage() {
@@ -141,7 +161,12 @@ function OrderPage() {
     setPlacing(true);
     setOrderError(null);
     try {
-      const res = await submitToAppsScript<{ orderId?: string; emailedCustomer?: boolean; success?: boolean; ok?: boolean }>({
+      const res = await submitToAppsScript<{
+        orderId?: string;
+        emailedCustomer?: boolean;
+        success?: boolean;
+        ok?: boolean;
+      }>({
         action: "create",
         fullName: details.fullName,
         mobile: details.mobile,
@@ -199,7 +224,9 @@ function OrderPage() {
       setPaymentUploadSucceeded(true);
       setPaymentMessage("Payment proof saved. It is now available in our order records.");
     } catch (err) {
-      setPaymentMessage(err instanceof Error ? err.message : "We could not upload that screenshot.");
+      setPaymentMessage(
+        err instanceof Error ? err.message : "We could not upload that screenshot.",
+      );
     } finally {
       setUploadingProof(false);
     }
@@ -229,12 +256,17 @@ function OrderPage() {
               : "Add an email next time and we will send your invoice PDF automatically."}
           </p>
           <div className="mt-8 grid gap-6 border-t border-border pt-8 text-left md:grid-cols-[180px_1fr] md:items-center">
-            <img src={PAYMENT_QR_URL} alt="D's PANAI payment QR code" className="mx-auto w-full max-w-[180px] rounded-xl border border-border" />
+            <img
+              src={PAYMENT_QR_URL}
+              alt="D's PANAI payment QR code"
+              className="mx-auto w-full max-w-[180px] rounded-xl border border-border"
+            />
             <div>
               <p className="eyebrow">Optional payment</p>
               <h2 className="mt-2 font-display text-xl">Pay now or wait for WhatsApp</h2>
               <p className="mt-2 text-sm text-muted-foreground">
-                Scan the QR to pay the order total, or wait and we will contact you directly on WhatsApp. Payment is not required to place the order.
+                Scan the QR to pay the order total, or wait and we will contact you directly on
+                WhatsApp. Payment is not required to place the order.
               </p>
               <a
                 href={BRAND.whatsappLink}
@@ -245,7 +277,11 @@ function OrderPage() {
                 Contact us on WhatsApp
               </a>
               <label className="mt-4 inline-flex cursor-pointer items-center gap-2 rounded-full border border-forest/25 px-5 py-3 text-xs font-bold tracking-wide text-forest uppercase hover:bg-cream">
-                {uploadingProof ? <Loader2 className="size-4 animate-spin" /> : <Upload className="size-4" />}
+                {uploadingProof ? (
+                  <Loader2 className="size-4 animate-spin" />
+                ) : (
+                  <Upload className="size-4" />
+                )}
                 {uploadingProof ? "Uploading screenshot…" : "Upload payment screenshot"}
                 <input
                   type="file"
@@ -491,7 +527,6 @@ function OrderPage() {
                   ))}
               </dl>
             </div>
-
           </div>
 
           <aside className="surface-card p-6 lg:sticky lg:top-28">
@@ -527,7 +562,7 @@ function OrderPage() {
           </div>
           <div className="flex justify-between gap-4">
             <dt className="text-muted-foreground">Shipping</dt>
-                <dd className="text-right text-xs font-semibold text-forest">Free</dd>
+            <dd className="text-right text-xs font-semibold text-forest">Free</dd>
           </div>
         </dl>
         <div className="my-5 rule-gold" />

@@ -149,15 +149,16 @@ export const placeOrder = createServerFn({ method: "POST" })
   .inputValidator((data: OrderInput) => data)
   .handler(async ({ data }) => {
     const order = validateOrder(data);
-    const result = await callScript<{ orderId: string; emailedCustomer: boolean }>(
-      "create",
-      { order },
-    );
+    const result = await callScript<{ orderId: string; emailedCustomer: boolean }>("create", {
+      order,
+    });
     return { orderId: result.orderId, emailedCustomer: result.emailedCustomer };
   });
 
 export const uploadPaymentProof = createServerFn({ method: "POST" })
-  .inputValidator((data: { orderId: string; fileName: string; mimeType: string; dataUrl: string }) => data)
+  .inputValidator(
+    (data: { orderId: string; fileName: string; mimeType: string; dataUrl: string }) => data,
+  )
   .handler(async ({ data }) => {
     const orderId = clean(data.orderId).toUpperCase();
     const fileName = clean(data.fileName).slice(0, 120);
@@ -168,10 +169,12 @@ export const uploadPaymentProof = createServerFn({ method: "POST" })
       throw new Error("Please upload a PNG, JPG or WebP screenshot.");
     }
     if (dataUrl.length > 7_000_000) throw new Error("The screenshot must be smaller than 5 MB.");
-    return callScript<{ paymentStatus: string; paymentProofUrl: string }>(
-      "uploadPaymentProof",
-      { orderId, fileName, mimeType, dataUrl },
-    );
+    return callScript<{ paymentStatus: string; paymentProofUrl: string }>("uploadPaymentProof", {
+      orderId,
+      fileName,
+      mimeType,
+      dataUrl,
+    });
   });
 
 export const trackOrder = createServerFn({ method: "POST" })
@@ -202,7 +205,7 @@ function matches(input: string, expected: string): boolean {
   return timingSafeEqual(a, b);
 }
 
-async function isUnlocked(): Promise<boolean> {
+async function useUnlocked(): Promise<boolean> {
   const session = await useSession<AdminSession>(sessionConfig);
   return session.data.unlocked === true;
 }
@@ -225,7 +228,7 @@ export const lockDashboard = createServerFn({ method: "POST" }).handler(async ()
 });
 
 export const getOrders = createServerFn({ method: "POST" }).handler(async () => {
-  if (!(await isUnlocked())) return { locked: true as const, orders: [] as OrderRecord[] };
+  if (!(await useUnlocked())) return { locked: true as const, orders: [] as OrderRecord[] };
   const result = await callScript<{ orders: OrderRecord[] }>("list", {});
   return { locked: false as const, orders: result.orders ?? [] };
 });
@@ -233,7 +236,7 @@ export const getOrders = createServerFn({ method: "POST" }).handler(async () => 
 export const setOrderStatus = createServerFn({ method: "POST" })
   .inputValidator((data: { orderId: string; status: OrderStatus }) => data)
   .handler(async ({ data }) => {
-    if (!(await isUnlocked())) throw new Error("Please unlock the dashboard first.");
+    if (!(await useUnlocked())) throw new Error("Please unlock the dashboard first.");
     const status = ORDER_STATUSES.includes(data.status) ? data.status : "Pending";
     await callScript("updateStatus", { orderId: clean(data.orderId), status });
     return { ok: true as const };

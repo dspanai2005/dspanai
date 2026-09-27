@@ -1,6 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Reveal } from "@/components/Reveal";
-import { BRAND, PRODUCT_IMAGES, PRODUCT, calculatePrice, formatINR, formatWeight } from "@/lib/product";
+import {
+  BRAND,
+  PRODUCT_IMAGES,
+  PRODUCT,
+  calculatePrice,
+  formatINR,
+  formatWeight,
+} from "@/lib/product";
 import { useCart } from "@/lib/cart";
 
 export const Route = createFileRoute("/shop")({
@@ -15,12 +22,19 @@ export const Route = createFileRoute("/shop")({
       { property: "og:title", content: "Shop Pure Panangarkandu (Palm Candy) — D's PANAI" },
       {
         property: "og:description",
-        content: "Traditional Tamil palm candy in our illustrated D's PANAI pouch. Select your weight from 250 g to 10 kg.",
+        content:
+          "Traditional Tamil palm candy in our illustrated D's PANAI pouch. Select your weight from 250 g to 10 kg.",
       },
       { property: "og:type", content: "website" },
-      { property: "og:image", content: `${BRAND.siteUrl}/assets/images/dspanai-panangarkandu-pack-front.jpg` },
+      {
+        property: "og:image",
+        content: `${BRAND.siteUrl}/assets/images/dspanai-panangarkandu-pack-front.jpg`,
+      },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:image", content: `${BRAND.siteUrl}/assets/images/dspanai-panangarkandu-pack-front.jpg` },
+      {
+        name: "twitter:image",
+        content: `${BRAND.siteUrl}/assets/images/dspanai-panangarkandu-pack-front.jpg`,
+      },
     ],
     links: [{ rel: "canonical", href: `${BRAND.siteUrl}/shop` }],
     scripts: [
@@ -61,7 +75,8 @@ function Shop() {
           One product, chosen carefully.
         </h1>
         <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground">
-          We specialize exclusively in Pure Panangarkandu. Choose your weight — from a 250 g pouch to bulk family quantities up to 10 kg — and confirm direct shipping on WhatsApp.
+          We specialize exclusively in Pure Panangarkandu. Choose your weight — from a 250 g pouch
+          to bulk family quantities up to 10 kg — and confirm direct shipping on WhatsApp.
         </p>
       </Reveal>
 

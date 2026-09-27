@@ -12,11 +12,20 @@ export const Route = createFileRoute("/shipping")({
           "D's PANAI ships Panangarkandu (palm candy) across India and worldwide with free delivery.",
       },
       { property: "og:title", content: "Shipping & Delivery Policy — D's PANAI" },
-      { property: "og:description", content: "How we pack and ship Panangarkandu orders across India and worldwide." },
+      {
+        property: "og:description",
+        content: "How we pack and ship Panangarkandu orders across India and worldwide.",
+      },
       { property: "og:type", content: "article" },
-      { property: "og:image", content: `${BRAND.siteUrl}/assets/images/dspanai-panangarkandu-pack-front.jpg` },
+      {
+        property: "og:image",
+        content: `${BRAND.siteUrl}/assets/images/dspanai-panangarkandu-pack-front.jpg`,
+      },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:image", content: `${BRAND.siteUrl}/assets/images/dspanai-panangarkandu-pack-front.jpg` },
+      {
+        name: "twitter:image",
+        content: `${BRAND.siteUrl}/assets/images/dspanai-panangarkandu-pack-front.jpg`,
+      },
     ],
     links: [{ rel: "canonical", href: `${BRAND.siteUrl}/shipping` }],
     scripts: [

@@ -20,11 +20,20 @@ export const Route = createFileRoute("/track-order")({
   head: () => ({
     meta: [
       { title: "Track Your Order | D's PANAI" },
-      { name: "description", content: "Check your D's PANAI Pure Panangarkandu order status and invoice details." },
+      {
+        name: "description",
+        content: "Check your D's PANAI Pure Panangarkandu order status and invoice details.",
+      },
       { property: "og:title", content: "Track Your Order — D's PANAI" },
-      { property: "og:description", content: "Check status and dispatch details for your Panangarkandu order." },
+      {
+        property: "og:description",
+        content: "Check status and dispatch details for your Panangarkandu order.",
+      },
       { property: "og:type", content: "website" },
-      { property: "og:image", content: `${BRAND.siteUrl}/assets/images/dspanai-panangarkandu-pack-front.jpg` },
+      {
+        property: "og:image",
+        content: `${BRAND.siteUrl}/assets/images/dspanai-panangarkandu-pack-front.jpg`,
+      },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [{ rel: "canonical", href: `${BRAND.siteUrl}/track-order` }],
@@ -100,7 +109,10 @@ function TrackOrderPage() {
       <div className="mt-10 grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
         <form onSubmit={handleSubmit} className="surface-card space-y-5 p-6 md:p-8">
           <div>
-            <label htmlFor="order-id" className="block text-xs font-semibold tracking-wide text-forest">
+            <label
+              htmlFor="order-id"
+              className="block text-xs font-semibold tracking-wide text-forest"
+            >
               Order ID
             </label>
             <input
@@ -159,10 +171,21 @@ function TrackingResult({ order }: { order: TrackedOrder }) {
       <div className="mt-7 space-y-4">
         {STATUS_STEPS.map((status, index) => (
           <div key={status} className="flex items-center gap-3 text-sm">
-            <span className={cn("grid size-7 place-items-center rounded-full border text-xs", index <= activeIndex ? "border-forest bg-forest text-primary-foreground" : "border-border text-warm")}>
+            <span
+              className={cn(
+                "grid size-7 place-items-center rounded-full border text-xs",
+                index <= activeIndex
+                  ? "border-forest bg-forest text-primary-foreground"
+                  : "border-border text-warm",
+              )}
+            >
               {index + 1}
             </span>
-            <span className={index === activeIndex ? "font-bold text-forest" : "text-muted-foreground"}>{status}</span>
+            <span
+              className={index === activeIndex ? "font-bold text-forest" : "text-muted-foreground"}
+            >
+              {status}
+            </span>
           </div>
         ))}
       </div>
@@ -171,7 +194,12 @@ function TrackingResult({ order }: { order: TrackedOrder }) {
         <span className="font-display text-2xl text-forest">{formatINR(order.total)}</span>
       </div>
       {order.invoiceUrl && (
-        <a href={order.invoiceUrl} target="_blank" rel="noreferrer" className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-gold hover:text-forest">
+        <a
+          href={order.invoiceUrl}
+          target="_blank"
+          rel="noreferrer"
+          className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-gold hover:text-forest"
+        >
           Open invoice PDF <ExternalLink className="size-4" />
         </a>
       )}

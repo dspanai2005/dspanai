@@ -31,7 +31,9 @@ export function CartDrawer() {
         className={cn(
           "fixed z-50 flex flex-col bg-ivory shadow-lift transition-transform duration-500 [transition-timing-function:cubic-bezier(0.16,1,0.3,1)]",
           "inset-x-0 bottom-0 max-h-[86vh] rounded-t-3xl sm:inset-y-0 sm:right-0 sm:left-auto sm:w-[420px] sm:max-h-none sm:rounded-none",
-          drawerOpen ? "translate-y-0 sm:translate-x-0" : "translate-y-full sm:translate-y-0 sm:translate-x-full",
+          drawerOpen
+            ? "translate-y-0 sm:translate-x-0"
+            : "translate-y-full sm:translate-y-0 sm:translate-x-full",
         )}
       >
         <header className="flex items-center justify-between border-b border-border px-5 py-4">
@@ -63,7 +65,10 @@ export function CartDrawer() {
           ) : (
             <ul className="space-y-4">
               {lines.map((line) => (
-                <li key={line.lineId} className="flex gap-4 rounded-xl border border-border bg-card p-3">
+                <li
+                  key={line.lineId}
+                  className="flex gap-4 rounded-xl border border-border bg-card p-3"
+                >
                   <img
                     src={IMAGES.product ?? IMAGES.front ?? PRODUCT.gallery[0]?.src ?? ""}
                     alt={PRODUCT.name}
@@ -74,7 +79,9 @@ export function CartDrawer() {
                     }}
                   />
                   <div className="min-w-0 flex-1">
-                    <p className="truncate text-sm font-semibold text-forest">{PRODUCT.shortName}</p>
+                    <p className="truncate text-sm font-semibold text-forest">
+                      {PRODUCT.shortName}
+                    </p>
                     <p className="mt-1 text-xs text-muted-foreground">
                       {formatWeight(line.weightGrams)} pouch
                     </p>

@@ -15,7 +15,6 @@ import { CartProvider } from "../lib/cart";
 import { SiteLayout } from "../components/SiteLayout";
 import { BrandedLoader } from "../components/BrandedLoader";
 
-
 function NotFoundComponent() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
@@ -95,9 +94,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content: "A traditional Tamil sweetness, carried forward through generations.",
       },
       { property: "og:type", content: "website" },
-      { property: "og:image", content: "https://www.dspanaitraditions.in/assets/images/dspanai-panangarkandu-hero-lifestyle.jpg" },
+      {
+        property: "og:image",
+        content:
+          "https://www.dspanaitraditions.in/assets/images/dspanai-panangarkandu-hero-lifestyle.jpg",
+      },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:image", content: "https://www.dspanaitraditions.in/assets/images/dspanai-panangarkandu-hero-lifestyle.jpg" },
+      {
+        name: "twitter:image",
+        content:
+          "https://www.dspanaitraditions.in/assets/images/dspanai-panangarkandu-hero-lifestyle.jpg",
+      },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
@@ -165,4 +172,3 @@ function RootComponent() {
     </QueryClientProvider>
   );
 }
-

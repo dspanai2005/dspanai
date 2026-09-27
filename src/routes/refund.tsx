@@ -12,11 +12,20 @@ export const Route = createFileRoute("/refund")({
           "Clear cancellation and refund policy for D's PANAI Pure Panangarkandu (palm candy) orders.",
       },
       { property: "og:title", content: "Cancellation & Refund Policy — D's PANAI" },
-      { property: "og:description", content: "How cancellations and refunds are handled for D's PANAI orders." },
+      {
+        property: "og:description",
+        content: "How cancellations and refunds are handled for D's PANAI orders.",
+      },
       { property: "og:type", content: "article" },
-      { property: "og:image", content: `${BRAND.siteUrl}/assets/images/dspanai-panangarkandu-pack-front.jpg` },
+      {
+        property: "og:image",
+        content: `${BRAND.siteUrl}/assets/images/dspanai-panangarkandu-pack-front.jpg`,
+      },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:image", content: `${BRAND.siteUrl}/assets/images/dspanai-panangarkandu-pack-front.jpg` },
+      {
+        name: "twitter:image",
+        content: `${BRAND.siteUrl}/assets/images/dspanai-panangarkandu-pack-front.jpg`,
+      },
     ],
     links: [{ rel: "canonical", href: `${BRAND.siteUrl}/refund` }],
     scripts: [

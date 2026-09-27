@@ -1,7 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Trash2 } from "lucide-react";
 import { useCart } from "@/lib/cart";
-import { BRAND, PRODUCT_IMAGES, PRODUCT, calculatePrice, formatINR, formatWeight } from "@/lib/product";
+import {
+  BRAND,
+  PRODUCT_IMAGES,
+  PRODUCT,
+  calculatePrice,
+  formatINR,
+  formatWeight,
+} from "@/lib/product";
 
 export const Route = createFileRoute("/cart")({
   head: () => ({
@@ -13,9 +20,15 @@ export const Route = createFileRoute("/cart")({
           "Review your D's PANAI Panangarkandu order, adjust weights and quantities, then continue to customer details.",
       },
       { property: "og:title", content: "Your D's PANAI order" },
-      { property: "og:description", content: "Review your Panangarkandu order before ordering on WhatsApp." },
+      {
+        property: "og:description",
+        content: "Review your Panangarkandu order before ordering on WhatsApp.",
+      },
       { property: "og:type", content: "website" },
-      { property: "og:image", content: `${BRAND.siteUrl}/assets/images/dspanai-panangarkandu-pack-front.jpg` },
+      {
+        property: "og:image",
+        content: `${BRAND.siteUrl}/assets/images/dspanai-panangarkandu-pack-front.jpg`,
+      },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [{ rel: "canonical", href: `${BRAND.siteUrl}/cart` }],
@@ -28,7 +41,9 @@ function CartPage() {
 
   return (
     <div className="mx-auto max-w-[1240px] px-6 py-16 md:px-8 md:py-20">
-      <h1 className="font-display text-[clamp(2rem,5vw,3.25rem)] text-forest">Your D's PANAI order</h1>
+      <h1 className="font-display text-[clamp(2rem,5vw,3.25rem)] text-forest">
+        Your D's PANAI order
+      </h1>
 
       {lines.length === 0 ? (
         <div className="surface-card mt-10 p-12 text-center">

@@ -127,7 +127,8 @@ export function calculatePrice(weightGrams: number): number {
     const [lowerWeight, lowerPrice] = tiers[i - 1]!;
     if (weightGrams <= upperWeight) {
       return Math.round(
-        lowerPrice + ((weightGrams - lowerWeight) / (upperWeight - lowerWeight)) * (upperPrice - lowerPrice),
+        lowerPrice +
+          ((weightGrams - lowerWeight) / (upperWeight - lowerWeight)) * (upperPrice - lowerPrice),
       );
     }
   }

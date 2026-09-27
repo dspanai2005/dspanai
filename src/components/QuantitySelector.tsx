@@ -139,7 +139,9 @@ export function QuantitySelector({
           </button>
         </div>
         <div className="text-right">
-          <div className="eyebrow">{formatWeight(weightGrams)} × {quantity}</div>
+          <div className="eyebrow">
+            {formatWeight(weightGrams)} × {quantity}
+          </div>
           <div className="font-display text-3xl font-semibold text-forest tabular-nums">
             {formatINR(calculatePrice(weightGrams) * quantity)}
           </div>
