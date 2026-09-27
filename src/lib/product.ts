@@ -43,8 +43,8 @@ export const BRAND = {
   ownerEmail: "dspanaiorders@gmail.com",
   monthlyVolumeKg: 2500,
   yearsInTrade: 25,
-  shippingIndia: 50,
-  shippingInternational: 500,
+  shippingIndia: 0,
+  shippingInternational: 0,
   siteUrl: "https://www.dspanaitraditions.in",
   originAddress: "Kumaralakshmipuram, Udangudi, Thoothukudi, Tamil Nadu, India",
 };

@@ -242,8 +242,7 @@ function Footer() {
           <p className="mt-1 text-sm tracking-[0.2em] text-gold uppercase">Palm Candy</p>
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground">
             Pure Panangarkandu (palm candy) from a family trade of {BRAND.yearsInTrade}+ years,
-            packed in our illustrated D's PANAI pack. Shipped across India (
-            {`₹${BRAND.shippingIndia}`}) and worldwide ({`₹${BRAND.shippingInternational}`}).
+            packed in our illustrated D's PANAI pack. Free delivery across India and worldwide.
           </p>
         </div>
         <FooterCol

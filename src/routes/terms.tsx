@@ -51,13 +51,13 @@ export const Route = createFileRoute("/terms")({
         {
           heading: "Orders",
           body: [
-            "Selecting a quantity on this website prepares an order request. An order is confirmed only after we reply on WhatsApp with availability, shipping charges and the final total.",
+            "Selecting a quantity on this website prepares an order request. An order is confirmed only after we reply on WhatsApp with availability and dispatch details. Shipping is free.",
           ],
         },
         {
           heading: "Pricing",
           body: [
-            "Prices shown are for the product only and are quoted in Indian Rupees. Shipping is confirmed separately for each order. We may update prices at any time; the price confirmed on WhatsApp applies to your order.",
+            "Prices are quoted in Indian Rupees, and shipping is free. We may update product prices at any time; the price confirmed on WhatsApp applies to your order.",
           ],
         },
         {

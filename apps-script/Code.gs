@@ -21,7 +21,8 @@
  *       Execute as: Me
  *       Who has access: Anyone
  *     Copy the /exec URL and give it to the website (APPS_SCRIPT_URL).
- *  5. Set the Script Property APPS_SCRIPT_TOKEN to match the website secret.
+ *  5. Set the Script Property ADMIN_PASSWORD to match the website's ADMIN_PASSWORD.
+ *     APPS_SCRIPT_TOKEN is optional legacy compatibility; customer requests do not need it.
  *******************************************************************/
 
 /** Optional legacy setting kept for backwards compatibility with older deployments. */
@@ -149,7 +150,7 @@ function doPost(e) {
       return json_(trackOrder_(String(body.orderId || body.query || '').trim()));
     }
 
-    if (action === 'uploadPaymentProof') {
+    if (action === 'uploadpaymentproof') {
       return json_(uploadPaymentProof_(body));
     }
 
@@ -217,6 +218,14 @@ function parseRequest_(e) {
 function coerceOrderPayload_(body) {
   var order = body && typeof body.order === 'object' ? body.order : {};
   var payload = Object.assign({}, order, body);
+  if (typeof payload.items === 'string') {
+    try {
+      payload.items = JSON.parse(payload.items);
+    } catch (err) {
+      payload.items = [];
+    }
+  }
+  if (!Array.isArray(payload.items)) payload.items = [];
   delete payload.action;
   delete payload.token;
   delete payload.adminPassword;
@@ -248,11 +257,14 @@ function createOrder_(order) {
   var lock = LockService.getScriptLock();
   lock.waitLock(30000);
   try {
+    order.shipping = 0;
+    order.total = Number(order.productTotal) || 0;
     var sheet = getSheet_();
     var orderId = nextOrderId_(sheet);
     var now = new Date();
 
-    var items = order.items || [];
+    var items = Array.isArray(order.items) ? order.items : [];
+    if (items.length === 0) return { ok: false, error: 'Your cart is empty.' };
     var totalWeight = 0;
     var summary = [];
     for (var i = 0; i < items.length; i++) {
@@ -323,7 +335,12 @@ function uploadPaymentProof_(body) {
     file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
     var row = i + 2;
     sheet.getRange(row, 20).setValue('Proof uploaded');
-    sheet.getRange(row, 21).setValue(file.getUrl());
+    sheet.getRange(row, 21).setRichTextValue(
+      SpreadsheetApp.newRichTextValue()
+        .setText('View payment proof')
+        .setLinkUrl(file.getUrl())
+        .build()
+    );
     return { ok: true, paymentStatus: 'Proof uploaded', paymentProofUrl: file.getUrl() };
   }
   return { ok: false, error: 'Order not found: ' + orderId };
@@ -355,11 +372,14 @@ function nextOrderId_(sheet) {
 function listOrders_() {
   var sheet = getSheet_();
   if (sheet.getLastRow() < 2) return [];
-  var values = sheet.getRange(2, 1, sheet.getLastRow() - 1, HEADERS.length).getValues();
+  var rowCount = sheet.getLastRow() - 1;
+  var values = sheet.getRange(2, 1, rowCount, HEADERS.length).getValues();
+  var proofLinks = sheet.getRange(2, 21, rowCount, 1).getRichTextValues();
   var out = [];
   for (var i = values.length - 1; i >= 0; i--) {
     var r = values[i];
     if (!r[0]) continue;
+    var proofLink = proofLinks[i][0] && proofLinks[i][0].getLinkUrl();
     out.push({
       orderId: String(r[0]),
       createdAt: String(r[1]),
@@ -381,7 +401,7 @@ function listOrders_() {
       total: Number(r[17]) || 0,
       invoiceUrl: String(r[18]),
       paymentStatus: String(r[19] || 'Not paid'),
-      paymentProofUrl: String(r[20] || ''),
+      paymentProofUrl: String(proofLink || r[20] || ''),
       emailedCustomer: String(r[21] || '')
     });
   }
@@ -529,7 +549,7 @@ function buildInvoicePdf_(orderId, date, order, items) {
       '<td style="width:45%;">' +
         '<table width="100%" style="border-collapse:collapse;">' +
           '<tr><td style="padding:6px 0;color:#6F6459;">Product total</td><td style="text-align:right;padding:6px 0;">' + money_(order.productTotal) + '</td></tr>' +
-          '<tr><td style="padding:6px 0;color:#6F6459;">Shipping</td><td style="text-align:right;padding:6px 0;">' + money_(order.shipping) + '</td></tr>' +
+          '<tr><td style="padding:6px 0;color:#6F6459;">Shipping</td><td style="text-align:right;padding:6px 0;">' + shippingLabel_(order.shipping) + '</td></tr>' +
           '<tr><td style="padding:12px 0;border-top:2px solid ' + INK + ';font-weight:bold;letter-spacing:.12em;text-transform:uppercase;">Grand total</td>' +
           '<td style="padding:12px 0;border-top:2px solid ' + INK + ';text-align:right;font-size:19px;font-weight:bold;color:' + CARAMEL + ';">' + money_(order.total) + '</td></tr>' +
         '</table>' +
@@ -586,7 +606,7 @@ function detailTable_(orderId, order, items) {
   '</div>' +
   '<div style="margin-top:16px;padding:16px 18px;border:1px solid #E8DFCF;border-radius:12px;background:#FFFDF8;">' +
   '<table width="100%" style="border-collapse:collapse;font-size:13.5px;">' + rows +
-    '<tr><td style="padding:9px 0;color:#6F6459;">Shipping</td><td style="padding:9px 0;text-align:right;">' + money_(order.shipping) + '</td></tr>' +
+    '<tr><td style="padding:9px 0;color:#6F6459;">Shipping</td><td style="padding:9px 0;text-align:right;">' + shippingLabel_(order.shipping) + '</td></tr>' +
     '<tr><td style="padding:11px 0;border-top:2px solid ' + INK + ';font-weight:bold;">Grand total</td>' +
     '<td style="padding:11px 0;border-top:2px solid ' + INK + ';text-align:right;font-weight:bold;color:' + CARAMEL + ';font-size:17px;">' + money_(order.total) + '</td></tr>' +
   '</table></div>' +
@@ -676,6 +696,10 @@ function sendStatusEmail_(orderId, name, email, status) {
 
 function money_(n) {
   return '₹' + Number(n || 0).toLocaleString('en-IN');
+}
+
+function shippingLabel_(amount) {
+  return Number(amount || 0) > 0 ? money_(amount) : 'Free';
 }
 
 function formatWeight_(g) {

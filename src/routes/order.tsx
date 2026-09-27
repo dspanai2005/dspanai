@@ -107,8 +107,8 @@ const FIELDS: FieldDef[] = [
     label: "Shipping destination",
     select: {
       options: [
-        { value: "India", label: "India (₹50 shipping)" },
-        { value: "International", label: "International (₹500 shipping)" },
+        { value: "India", label: "India (free shipping)" },
+        { value: "International", label: "International (free shipping)" },
       ],
     },
   },
@@ -123,6 +123,7 @@ function OrderPage() {
   const [placing, setPlacing] = useState(false);
   const [placed, setPlaced] = useState<{ orderId: string; emailed: boolean } | null>(null);
   const [paymentMessage, setPaymentMessage] = useState<string | null>(null);
+  const [paymentUploadSucceeded, setPaymentUploadSucceeded] = useState(false);
   const [uploadingProof, setUploadingProof] = useState(false);
   const [orderError, setOrderError] = useState<string | null>(null);
 
@@ -180,6 +181,7 @@ function OrderPage() {
     if (!placed) return;
     setUploadingProof(true);
     setPaymentMessage(null);
+    setPaymentUploadSucceeded(false);
     try {
       const dataUrl = await new Promise<string>((resolve, reject) => {
         const reader = new FileReader();
@@ -194,7 +196,8 @@ function OrderPage() {
         mimeType: file.type,
         dataUrl,
       });
-      setPaymentMessage("Payment screenshot received. We will verify it before dispatch.");
+      setPaymentUploadSucceeded(true);
+      setPaymentMessage("Payment proof saved. It is now available in our order records.");
     } catch (err) {
       setPaymentMessage(err instanceof Error ? err.message : "We could not upload that screenshot.");
     } finally {
@@ -242,8 +245,8 @@ function OrderPage() {
                 Contact us on WhatsApp
               </a>
               <label className="mt-4 inline-flex cursor-pointer items-center gap-2 rounded-full border border-forest/25 px-5 py-3 text-xs font-bold tracking-wide text-forest uppercase hover:bg-cream">
-                <Upload className="size-4" />
-                {uploadingProof ? "Uploading" : "Upload payment screenshot"}
+                {uploadingProof ? <Loader2 className="size-4 animate-spin" /> : <Upload className="size-4" />}
+                {uploadingProof ? "Uploading screenshot…" : "Upload payment screenshot"}
                 <input
                   type="file"
                   accept="image/png,image/jpeg,image/webp"
@@ -256,7 +259,20 @@ function OrderPage() {
                   }}
                 />
               </label>
-              {paymentMessage && <p className="mt-3 text-xs text-forest">{paymentMessage}</p>}
+              {paymentMessage && (
+                <p
+                  role="status"
+                  className={cn(
+                    "mt-3 flex items-center gap-2 rounded-lg border p-3 text-xs",
+                    paymentUploadSucceeded
+                      ? "border-emerald-300 bg-emerald-50 font-semibold text-emerald-800"
+                      : "border-destructive/30 bg-destructive/5 text-destructive",
+                  )}
+                >
+                  {paymentUploadSucceeded && <Check className="size-4 shrink-0" />}
+                  {paymentMessage}
+                </p>
+              )}
             </div>
           </div>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
@@ -511,7 +527,7 @@ function OrderPage() {
           </div>
           <div className="flex justify-between gap-4">
             <dt className="text-muted-foreground">Shipping</dt>
-            <dd className="text-right text-xs text-warm">To be confirmed</dd>
+                <dd className="text-right text-xs font-semibold text-forest">Free</dd>
           </div>
         </dl>
         <div className="my-5 rule-gold" />
@@ -521,7 +537,7 @@ function OrderPage() {
             {formatINR(subtotal)}
           </span>
         </div>
-        <p className="mt-1 text-xs text-muted-foreground">+ applicable shipping</p>
+        <p className="mt-1 text-xs text-muted-foreground">Free shipping</p>
       </>
     );
   }

@@ -38,6 +38,11 @@ const STATUS_CLASS: Record<OrderStatus, string> = {
   Delivered: "bg-forest text-primary-foreground",
 };
 
+function driveThumbnailUrl(fileUrl: string): string | null {
+  const fileId = fileUrl.match(/(?:\/d\/|[?&]id=)([^/?&]+)/)?.[1];
+  return fileId ? `https://drive.google.com/thumbnail?id=${encodeURIComponent(fileId)}&sz=w320` : null;
+}
+
 function Dashboard() {
   const fetchOrders = useServerFn(getOrders);
   const unlock = useServerFn(unlockDashboard);
@@ -264,7 +269,7 @@ function Dashboard() {
                 <td className="px-4 py-4 font-bold text-forest tabular-nums">
                   {formatINR(o.total)}
                   <p className="text-xs font-normal text-muted-foreground">
-                    incl. {formatINR(o.shipping)} shipping
+                    {o.shipping > 0 ? `incl. ${formatINR(o.shipping)} shipping` : "Free shipping"}
                   </p>
                 </td>
                 <td className="px-4 py-4">
@@ -299,14 +304,26 @@ function Dashboard() {
                     {o.paymentStatus || "Not paid"}
                   </p>
                   {o.paymentProofUrl && (
-                    <a
-                      href={o.paymentProofUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="mt-2 inline-flex items-center gap-1 font-bold text-forest uppercase hover:text-gold"
-                    >
-                      Proof <ExternalLink className="size-3" />
-                    </a>
+                    <>
+                      {driveThumbnailUrl(o.paymentProofUrl) && (
+                        <a href={o.paymentProofUrl} target="_blank" rel="noreferrer" className="mt-2 block w-fit">
+                          <img
+                            src={driveThumbnailUrl(o.paymentProofUrl)!}
+                            alt={`Payment proof for ${o.orderId}`}
+                            loading="lazy"
+                            className="h-16 w-20 rounded-md border border-border object-cover"
+                          />
+                        </a>
+                      )}
+                      <a
+                        href={o.paymentProofUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="mt-2 inline-flex items-center gap-1 font-bold text-forest uppercase hover:text-gold"
+                      >
+                        View proof <ExternalLink className="size-3" />
+                      </a>
+                    </>
                   )}
                 </td>
                 <td className="px-4 py-4">

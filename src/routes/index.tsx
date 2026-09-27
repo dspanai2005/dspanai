@@ -28,7 +28,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Buy Pure Panangarkandu (palm candy) online from D's PANAI — a 25+ year family trade in our illustrated branded pack. From ₹299 / 250 g. Shipping ₹50 across India, ₹500 worldwide.",
+          "Buy Pure Panangarkandu (palm candy) online from D's PANAI — a 25+ year family trade in our illustrated branded pack. From ₹299 / 250 g with free delivery across India and worldwide.",
       },
       { property: "og:title", content: "D's PANAI — Pure Panangarkandu (Palm Candy)" },
       {
@@ -161,8 +161,8 @@ function Hero() {
 
           <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-xs text-warm">
             <li>✦ {formatINR(PRODUCT.basePrice)} / 250 g</li>
-            <li>✦ India shipping {formatINR(BRAND.shippingIndia)}</li>
-            <li>✦ Worldwide {formatINR(BRAND.shippingInternational)}</li>
+            <li>✦ Free shipping in India</li>
+            <li>✦ Free worldwide shipping</li>
             <li>✦ Direct WhatsApp confirmation</li>
           </ul>
         </div>
@@ -219,7 +219,7 @@ const TRUST = [
     icon: Globe2,
     en: "Worldwide shipping",
     ta: "",
-    body: `India ${formatINR(BRAND.shippingIndia)} · International ${formatINR(BRAND.shippingInternational)}.`,
+    body: "Free across India and internationally.",
   },
 ];
 
@@ -566,9 +566,7 @@ function PriceLadder() {
             </h2>
           </div>
           <p className="max-w-sm text-sm text-muted-foreground">
-            Order any quantity from 250 g upwards in 50 g steps. Flat{" "}
-            {formatINR(BRAND.shippingIndia)} shipping across India and{" "}
-            {formatINR(BRAND.shippingInternational)} worldwide.
+            Order any quantity from 250 g upwards in 50 g steps. Free shipping across India and worldwide.
           </p>
         </Reveal>
         <div className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
@@ -598,12 +596,12 @@ function PriceLadder() {
           {[
             {
               icon: Truck,
-              en: `India shipping flat ${formatINR(BRAND.shippingIndia)}`,
+              en: "Free shipping across India",
               ta: "",
             },
             {
               icon: Globe2,
-              en: `International flat ${formatINR(BRAND.shippingInternational)}`,
+              en: "Free international shipping",
               ta: "",
             },
             { icon: Scale, en: "Any weight in 50 g steps", ta: "" },
@@ -636,7 +634,7 @@ const FAQS: [string, string, string][] = [
   [
     "What are the shipping charges?",
     "?",
-    `Flat ${formatINR(BRAND.shippingIndia)} anywhere in India and ${formatINR(BRAND.shippingInternational)} for international delivery.`,
+    "Shipping is free across India and internationally.",
   ],
   [
     "Do I need to pay online on this site?",

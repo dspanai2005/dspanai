@@ -5,9 +5,10 @@
 3. Open `apps-script/Code.gs` from this project, copy everything, paste it in, and save.
 4. In the toolbar, choose the function **setup** and press **Run**. Allow the
    permissions Google asks for (it needs to send email and create the invoice PDF).
-5. In **Project Settings → Script Properties**, add `APPS_SCRIPT_TOKEN` with a
-   newly generated secret value. Set the same value as the website's
-   `APPS_SCRIPT_TOKEN` environment secret. Do not put the token in source code.
+5. In **Project Settings → Script Properties**, set `ADMIN_PASSWORD` to the same
+   value used by the website's server-side `ADMIN_PASSWORD` environment variable.
+   This protects the owner dashboard's order list and status updates. Customer
+   order creation, tracking, and payment-proof uploads do not require a token.
 6. Press **Deploy → New deployment → Web app**:
    - Description: `D's PANAI orders`
    - Execute as: **Me**
@@ -29,9 +30,10 @@ Create a new version of the existing web-app deployment:
 The tracking page sends `action: "track"` with the order ID. The deployed version
 must include the `track` branch in `doPost` and the `trackOrder_` function.
 
-The script reads `APPS_SCRIPT_TOKEN` from Script Properties. The website sends
-the matching secret from its server environment. The previously hardcoded token
-was exposed and must not be reused.
+The script checks `ADMIN_PASSWORD` from Script Properties for owner-only order
+list and status-update actions. The website's server-side `ADMIN_PASSWORD` must
+match it. `APPS_SCRIPT_TOKEN` is only a legacy fallback and is not required for
+customer order creation, tracking, or payment-proof uploads.
 
 Public order tracking intentionally does not return the invoice URL. The invoice
 is attached to the customer email; invoice and payment-proof links remain in the

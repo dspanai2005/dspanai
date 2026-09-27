@@ -9,7 +9,7 @@ export const Route = createFileRoute("/shipping")({
       {
         name: "description",
         content:
-          "D's PANAI ships Panangarkandu (palm candy) worldwide. Flat ₹50 shipping within India and ₹500 internationally, confirmed on WhatsApp.",
+          "D's PANAI ships Panangarkandu (palm candy) across India and worldwide with free delivery.",
       },
       { property: "og:title", content: "Shipping & Delivery Policy — D's PANAI" },
       { property: "og:description", content: "How we pack and ship Panangarkandu orders across India and worldwide." },
@@ -46,13 +46,13 @@ export const Route = createFileRoute("/shipping")({
   component: () => (
     <LegalPage
       title="Shipping & Delivery"
-      intro="We ship Pure Panangarkandu (palm candy) across India and worldwide. Flat ₹50 shipping within India and ₹500 for international orders."
+      intro="We ship Pure Panangarkandu (palm candy) across India and worldwide with free delivery."
       sections={[
         {
           heading: "Shipping charges",
           body: [
-            "Shipping is a flat ₹50 for any order delivered within India, and a flat ₹500 for international orders.",
-            "Your WhatsApp order message already includes the shipping charge, and we confirm the final total with you before dispatch.",
+            "Shipping is free for orders delivered within India and internationally.",
+            "Your order total includes no shipping charge. We will contact you on WhatsApp to confirm availability and dispatch.",
           ],
         },
         {

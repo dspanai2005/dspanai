@@ -125,9 +125,7 @@ export function CartDrawer() {
               <span className="text-muted-foreground">Subtotal</span>
               <span className="font-bold tabular-nums text-forest">{formatINR(subtotal)}</span>
             </div>
-            <p className="text-xs text-muted-foreground">
-              Shipping is calculated during order confirmation on WhatsApp.
-            </p>
+            <p className="text-xs text-muted-foreground">Free shipping.</p>
             <Link
               to="/cart"
               onClick={() => setDrawerOpen(false)}

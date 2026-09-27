@@ -126,9 +126,7 @@ function CartPage() {
               </div>
               <div className="flex justify-between gap-4">
                 <dt className="text-muted-foreground">Shipping</dt>
-                <dd className="text-right text-xs text-warm">
-                  Calculated during order confirmation
-                </dd>
+                <dd className="text-right text-xs font-semibold text-forest">Free</dd>
               </div>
             </dl>
             <div className="my-5 rule-gold" />
@@ -138,7 +136,7 @@ function CartPage() {
                 {formatINR(subtotal)}
               </span>
             </div>
-            <p className="mt-1 text-xs text-muted-foreground">+ applicable shipping</p>
+            <p className="mt-1 text-xs text-muted-foreground">Free shipping</p>
             <Link
               to="/order"
               className="mt-6 block rounded-full bg-forest px-6 py-4 text-center text-sm font-bold tracking-wide text-primary-foreground uppercase transition-transform hover:scale-[1.02]"

@@ -18,7 +18,7 @@ export const Route = createFileRoute("/product/$slug")({
       {
         name: "description",
         content:
-          "Buy Pure Panangarkandu (palm candy) online from D's PANAI. Authentic Tamil palm sweetener, starting at 250 g for ₹299. Shipping flat ₹50 across India, ₹500 worldwide.",
+          "Buy Pure Panangarkandu (palm candy) online from D's PANAI. Authentic Tamil palm sweetener, starting at 250 g for ₹299 with free delivery across India and worldwide.",
       },
       { property: "og:title", content: "D's PANAI Pure Panangarkandu (Palm Candy)" },
       {

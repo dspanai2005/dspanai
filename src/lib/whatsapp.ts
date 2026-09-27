@@ -58,7 +58,7 @@ export function buildOrderMessage(
     "",
     "ORDER TOTAL",
     `Product Total: ${formatINR(productTotal)}`,
-    `Shipping: ${formatINR(shipping)}`,
+    `Shipping: ${shipping > 0 ? formatINR(shipping) : "Free"}`,
     `Estimated Total: ${formatINR(productTotal + shipping)}`,
     "",
     "Please confirm availability and the final payable amount.",
