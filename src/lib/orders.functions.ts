@@ -75,15 +75,14 @@ export type TrackedOrder = {
 /* ------------------------------------------------------------------ */
 
 async function callScript<T>(action: string, payload: Record<string, unknown>): Promise<T> {
-  const url = process.env["APPS_SCRIPT_URL"];
-  const token = process.env["APPS_SCRIPT_TOKEN"];
+  const url = process.env["APPS_SCRIPT_URL"] ?? process.env["VITE_APPS_SCRIPT_URL"];
   if (!url) throw new Error("Order system is not connected yet (missing APPS_SCRIPT_URL).");
-  if (!token) throw new Error("Order system is not connected yet (missing APPS_SCRIPT_TOKEN).");
 
+  const adminPassword = process.env["ADMIN_PASSWORD"];
   const res = await fetch(url, {
     method: "POST",
     headers: { "content-type": "text/plain;charset=utf-8" },
-    body: JSON.stringify({ action, token, ...payload }),
+    body: JSON.stringify({ action, ...(adminPassword ? { adminPassword } : {}), ...payload }),
     redirect: "follow",
   });
 

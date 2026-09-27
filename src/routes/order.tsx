@@ -1,6 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { useServerFn } from "@tanstack/react-start";
 import { Check, Loader2, Upload } from "lucide-react";
 import { OrderLoading } from "@/components/OrderLoading";
 import {
@@ -10,8 +9,43 @@ import {
   type ShippingDestination,
 } from "@/lib/cart";
 import { BRAND, PRODUCT_IMAGES, PRODUCT, calculatePrice, formatINR, formatWeight } from "@/lib/product";
-import { placeOrder, uploadPaymentProof } from "@/lib/orders.functions";
 import { cn } from "@/lib/utils";
+
+const APPS_SCRIPT_URL = (import.meta.env.VITE_APPS_SCRIPT_URL ?? "").trim();
+
+async function submitToAppsScript<T>(payload: Record<string, string | number | boolean | undefined>): Promise<T> {
+  if (!APPS_SCRIPT_URL) {
+    throw new Error("Order system is not connected yet (missing VITE_APPS_SCRIPT_URL).");
+  }
+
+  const params = new URLSearchParams();
+  Object.entries(payload).forEach(([key, value]) => {
+    if (value !== undefined && value !== null && value !== "") {
+      params.append(key, String(value));
+    }
+  });
+
+  const res = await fetch(APPS_SCRIPT_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
+    body: params,
+  });
+
+  const text = await res.text();
+  let data: { success?: boolean; ok?: boolean; error?: string; orderId?: string; emailedCustomer?: boolean; paymentStatus?: string; paymentProofUrl?: string };
+
+  try {
+    data = JSON.parse(text);
+  } catch {
+    throw new Error("The order server returned an unexpected response.");
+  }
+
+  if (!res.ok || data.success === false || data.ok === false) {
+    throw new Error(data.error ?? "We could not submit your order right now.");
+  }
+
+  return data as T;
+}
 
 export const Route = createFileRoute("/order")({
   head: () => ({
@@ -91,8 +125,6 @@ function OrderPage() {
   const [paymentMessage, setPaymentMessage] = useState<string | null>(null);
   const [uploadingProof, setUploadingProof] = useState(false);
   const [orderError, setOrderError] = useState<string | null>(null);
-  const submitOrder = useServerFn(placeOrder);
-  const submitPaymentProof = useServerFn(uploadPaymentProof);
 
   const shipping =
     details.country === "International" ? BRAND.shippingInternational : BRAND.shippingIndia;
@@ -108,30 +140,32 @@ function OrderPage() {
     setPlacing(true);
     setOrderError(null);
     try {
-      const res = await submitOrder({
-        data: {
-          fullName: details.fullName,
-          mobile: details.mobile,
-          whatsapp: details.mobile,
-          email: details.email,
-          address: details.address,
-          city: details.city,
-          state: details.state,
-          pincode: details.pincode,
-          landmark: details.landmark,
-          instructions: details.instructions,
-          items: lines.map((l) => ({
+      const res = await submitToAppsScript<{ orderId?: string; emailedCustomer?: boolean; success?: boolean; ok?: boolean }>({
+        action: "create",
+        fullName: details.fullName,
+        mobile: details.mobile,
+        whatsapp: details.mobile,
+        email: details.email,
+        address: details.address,
+        city: details.city,
+        state: details.state,
+        pincode: details.pincode,
+        landmark: details.landmark,
+        instructions: details.instructions,
+        productTotal: subtotal,
+        shipping,
+        total,
+        items: JSON.stringify(
+          lines.map((l) => ({
             weightGrams: l.weightGrams,
             quantity: l.quantity,
             unitPrice: calculatePrice(l.weightGrams),
             lineTotal: calculatePrice(l.weightGrams) * l.quantity,
           })),
-          productTotal: subtotal,
-          shipping,
-          total,
-        },
+        ),
       });
-      setPlaced({ orderId: res.orderId, emailed: res.emailedCustomer });
+      if (!res.orderId) throw new Error("The order was created but no order ID was returned.");
+      setPlaced({ orderId: res.orderId, emailed: Boolean(res.emailedCustomer) });
       clearCart();
     } catch (err) {
       setOrderError(
@@ -153,8 +187,12 @@ function OrderPage() {
         reader.onerror = () => reject(new Error("We could not read that screenshot."));
         reader.readAsDataURL(file);
       });
-      await submitPaymentProof({
-        data: { orderId: placed.orderId, fileName: file.name, mimeType: file.type, dataUrl },
+      await submitToAppsScript<{ success?: boolean; ok?: boolean; error?: string }>({
+        action: "uploadPaymentProof",
+        orderId: placed.orderId,
+        fileName: file.name,
+        mimeType: file.type,
+        dataUrl,
       });
       setPaymentMessage("Payment screenshot received. We will verify it before dispatch.");
     } catch (err) {

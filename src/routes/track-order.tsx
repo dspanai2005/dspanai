@@ -1,11 +1,20 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
-import { useServerFn } from "@tanstack/react-start";
 import { CheckCircle2, ExternalLink, PackageSearch } from "lucide-react";
 import { OrderLoading } from "@/components/OrderLoading";
-import { trackOrder, type TrackedOrder } from "@/lib/orders.functions";
 import { BRAND, formatINR } from "@/lib/product";
 import { cn } from "@/lib/utils";
+
+const APPS_SCRIPT_URL = (import.meta.env.VITE_APPS_SCRIPT_URL ?? "").trim();
+
+export type TrackedOrder = {
+  orderId: string;
+  createdAt: string;
+  status: "Pending" | "Confirmed" | "Shipped" | "In Transit" | "Delivered";
+  firstName: string;
+  total: number;
+  invoiceUrl: string;
+};
 
 export const Route = createFileRoute("/track-order")({
   head: () => ({
@@ -49,7 +58,6 @@ export const Route = createFileRoute("/track-order")({
 const STATUS_STEPS = ["Pending", "Confirmed", "Shipped", "In Transit", "Delivered"] as const;
 
 function TrackOrderPage() {
-  const lookup = useServerFn(trackOrder);
   const [orderId, setOrderId] = useState("");
   const [tracked, setTracked] = useState<TrackedOrder | null>(null);
   const [loading, setLoading] = useState(false);
@@ -61,7 +69,17 @@ function TrackOrderPage() {
     setError(null);
     setTracked(null);
     try {
-      setTracked(await lookup({ data: { orderId } }));
+      if (!APPS_SCRIPT_URL) {
+        throw new Error("Tracking is not connected yet (missing VITE_APPS_SCRIPT_URL).");
+      }
+
+      const params = new URLSearchParams({ action: "track", query: orderId });
+      const res = await fetch(`${APPS_SCRIPT_URL}?${params.toString()}`, { method: "GET" });
+      const data = await res.json();
+      if (!res.ok || data.ok === false || !data.order) {
+        throw new Error(data.error ?? "We could not find that order.");
+      }
+      setTracked(data.order);
     } catch (err) {
       setError(err instanceof Error ? err.message : "We could not find that order.");
     } finally {

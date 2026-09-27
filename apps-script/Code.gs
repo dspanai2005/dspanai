@@ -24,8 +24,8 @@
  *  5. Set the Script Property APPS_SCRIPT_TOKEN to match the website secret.
  *******************************************************************/
 
-/** Set this Script Property to the same value as the website APPS_SCRIPT_TOKEN. */
-var TOKEN_PROPERTY = 'APPS_SCRIPT_TOKEN';
+/** Optional legacy setting kept for backwards compatibility with older deployments. */
+var LEGACY_TOKEN_PROPERTY = 'APPS_SCRIPT_TOKEN';
 
 var OWNER_EMAIL = 'divyaselvaraj339@gmail.com';
 var BRAND_NAME = "D's PANAI";
@@ -134,26 +134,104 @@ function statusRule_(range, text, bg, fg) {
 
 function doPost(e) {
   try {
-    var body = JSON.parse(e.postData.contents);
-    var sharedToken = PropertiesService.getScriptProperties().getProperty(TOKEN_PROPERTY);
-    if (!sharedToken || body.token !== sharedToken) {
-      return json_({ ok: false, error: 'Unauthorized' });
+    var body = parseRequest_(e);
+    var action = String(body.action || '').toLowerCase();
+
+    if (!action) {
+      return json_({ ok: false, error: 'Missing action.' });
     }
 
-    if (body.action === 'create') return json_(createOrder_(body.order));
-    if (body.action === 'track') return json_(trackOrder_(body.orderId));
-    if (body.action === 'list') return json_({ ok: true, orders: listOrders_() });
-    if (body.action === 'updateStatus') return json_(updateStatus_(body.orderId, body.status));
-    if (body.action === 'ping') return json_({ ok: true, pong: true });
-    if (body.action === 'uploadPaymentProof') return json_(uploadPaymentProof_(body));
-    return json_({ ok: false, error: 'Unknown action: ' + body.action });
+    if (action === 'create') {
+      return json_(createOrder_(coerceOrderPayload_(body)));
+    }
+
+    if (action === 'track') {
+      return json_(trackOrder_(String(body.orderId || body.query || '').trim()));
+    }
+
+    if (action === 'uploadPaymentProof') {
+      return json_(uploadPaymentProof_(body));
+    }
+
+    if (action === 'ping') {
+      return json_({ ok: true, pong: true });
+    }
+
+    if (action === 'list' || action === 'updatestatus') {
+      if (!isAdminRequest_(body)) {
+        return json_({ ok: false, error: 'Unauthorized' });
+      }
+      if (action === 'list') return json_({ ok: true, orders: listOrders_() });
+      return json_(updateStatus_(String(body.orderId || '').trim(), String(body.status || '')));
+    }
+
+    return json_({ ok: false, error: 'Unknown action: ' + action });
   } catch (err) {
-    return json_({ ok: false, error: String(err) });
+    return json_({ ok: false, error: 'We could not process that request right now.' });
   }
 }
 
-function doGet() {
-  return json_({ ok: true, service: "D's PANAI orders" });
+function doGet(e) {
+  try {
+    var params = e && e.parameter ? e.parameter : {};
+    var action = String(params.action || '').toLowerCase();
+    var query = String(params.query || params.orderId || params.id || '').trim();
+
+    if (action === 'track') {
+      return json_(trackOrder_(query));
+    }
+
+    if (action === 'ping') {
+      return json_({ ok: true, pong: true });
+    }
+
+    return json_({ ok: true, service: "D's PANAI orders" });
+  } catch (err) {
+    return json_({ ok: false, error: 'We could not process that request right now.' });
+  }
+}
+
+function parseRequest_(e) {
+  var raw = e && e.postData && e.postData.contents ? e.postData.contents : '';
+  var body = {};
+  var params = e && e.parameter ? e.parameter : {};
+  var keys = Object.keys(params || {});
+  for (var i = 0; i < keys.length; i++) {
+    var key = keys[i];
+    var value = params[key];
+    body[key] = Array.isArray(value) ? value[0] : value;
+  }
+  if (raw && !body.action) {
+    try {
+      var parsed = JSON.parse(raw);
+      if (parsed && typeof parsed === 'object') {
+        body = Object.assign(body, parsed);
+      }
+    } catch (err) {
+      // Ignore non-JSON payloads; browser POSTs from the website use x-www-form-urlencoded.
+    }
+  }
+  return body;
+}
+
+function coerceOrderPayload_(body) {
+  var order = body && typeof body.order === 'object' ? body.order : {};
+  var payload = Object.assign({}, order, body);
+  delete payload.action;
+  delete payload.token;
+  delete payload.adminPassword;
+  return payload;
+}
+
+function isAdminRequest_(body) {
+  var provided = String(body.adminPassword || body.password || '').trim();
+  var scriptPassword = PropertiesService.getScriptProperties().getProperty('ADMIN_PASSWORD');
+  if (scriptPassword && provided && provided === scriptPassword) return true;
+
+  var legacyToken = PropertiesService.getScriptProperties().getProperty(LEGACY_TOKEN_PROPERTY);
+  if (legacyToken && provided && provided === legacyToken) return true;
+
+  return false;
 }
 
 function json_(obj) {
