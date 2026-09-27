@@ -47,7 +47,7 @@ const REQUIRED: (keyof CustomerDetails)[] = [
 ];
 
 const PAYMENT_QR_URL =
-  "https://dspanai.lovable.app/__l5e/assets-v1/b3f3c6ee-aea6-411d-87a0-d5356b065c8a/dspanai-payment-qr.png";
+  "/assets/images/dspanai-payment-qr.png";
 
 type FieldDef = {
   key: keyof CustomerDetails;

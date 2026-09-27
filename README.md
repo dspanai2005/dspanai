@@ -1,26 +1,34 @@
-# Insane Branding Lab
+# D's PANAI Storefront
 
-Create that 3d interactive animated insane branding website
+Production site: https://www.dspanaitraditions.in
 
-This project was built with [Lovable](https://lovable.dev).
+This is a TanStack Start application built with Vite and Nitro. It uses server-side rendering and server functions for order placement, tracking, and the owner dashboard.
 
-**Live app**: https://www.dspanaitraditions.in
+## Local Development
 
-## Build with Lovable
-
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/a89224d2-c4d9-42da-9d1c-a79a4a4e4da6).
-
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
-
-## Development
-
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+Requires Node.js and npm.
 
 ```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
+npm ci
 npm run dev
 ```
+
+Create `.env.local` with the server-only values listed below before testing order functions.
+
+## Deploy to Vercel
+
+1. Import this GitHub repository into Vercel.
+2. Use `npm ci` for install and `npm run build` for the build command. Nitro emits Vercel's Build Output API bundle to `.vercel/output`.
+3. Add these server environment variables in Vercel for Preview and Production:
+	- `APPS_SCRIPT_URL`
+	- `APPS_SCRIPT_TOKEN`
+	- `ADMIN_PASSWORD`
+	- `SESSION_SECRET`
+4. Verify a Vercel preview deployment before changing the production domain.
+5. Add `www.dspanaitraditions.in` in Vercel's Domains settings and update DNS at the domain registrar using the records Vercel provides. Configure the apex domain to redirect to `www`.
+
+Do not commit `.env.local` or paste secret values into source files.
+
+## Google Apps Script
+
+The order backend is configured separately from Vercel. Follow [the Apps Script setup guide](apps-script/SETUP.md) and set matching `APPS_SCRIPT_TOKEN` values in Apps Script Script Properties and Vercel.
