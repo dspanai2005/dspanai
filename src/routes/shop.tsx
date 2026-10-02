@@ -17,13 +17,13 @@ export const Route = createFileRoute("/shop")({
       {
         name: "description",
         content:
-          "Browse available weights of D's PANAI Pure Panangarkandu (Palm Candy) in our illustrated branded pack — from 250 g to 10 kg. Worldwide shipping.",
+          "Browse available weights of D's PANAI Pure Panangarkandu (Palm Candy) in our illustrated branded pack — 250 g, 500 g, and 1 kg. Worldwide shipping.",
       },
       { property: "og:title", content: "Shop Pure Panangarkandu (Palm Candy) — D's PANAI" },
       {
         property: "og:description",
         content:
-          "Traditional Tamil palm candy in our illustrated D's PANAI pouch. Select your weight from 250 g to 10 kg.",
+          "Traditional Tamil palm candy in our illustrated D's PANAI pouch. Available in 250 g, 500 g, and 1 kg packs.",
       },
       { property: "og:type", content: "website" },
       {
@@ -76,7 +76,7 @@ function Shop() {
         </h1>
         <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground">
           We specialize exclusively in Pure Panangarkandu. Choose your weight — from a 250 g pouch
-          to bulk family quantities up to 10 kg — and confirm direct shipping on WhatsApp.
+          up to a 1 kg family pack — and confirm direct shipping on WhatsApp.
         </p>
       </Reveal>
 

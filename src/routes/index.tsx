@@ -25,7 +25,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Pure Panangarkandu (palm candy) from D's PANAI, a Tamil family trade rooted in Udangudi. Choose your weight, from 250 g to 10 kg, with free shipping across India and worldwide.",
+          "Pure Panangarkandu (palm candy) from D's PANAI, a Tamil family trade rooted in Udangudi. Choose from 250 g, 500 g, or 1 kg, with free shipping across India and worldwide.",
       },
       { property: "og:title", content: "D's PANAI — Pure Panangarkandu (Palm Candy)" },
       {
@@ -373,7 +373,7 @@ function OrderSteps() {
           {
             step: "01",
             title: "Choose your weight",
-            text: "From 250 g to 10 kg, packed in the same traditional D's PANAI pouch.",
+            text: "Available in 250 g, 500 g, and 1 kg packs, carefully packed by D's PANAI.",
           },
           {
             step: "02",

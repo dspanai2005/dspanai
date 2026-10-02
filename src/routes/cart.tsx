@@ -91,9 +91,7 @@ function CartPage() {
                         onChange={(e) => updateWeight(line.lineId, Number(e.target.value))}
                         className="ml-2 rounded-lg border border-input bg-card px-3 py-2 text-sm font-semibold"
                       >
-                        {Array.from(new Set([...PRODUCT.allWeights, line.weightGrams]))
-                          .sort((a, b) => a - b)
-                          .map((w) => (
+                        {PRODUCT.allWeights.map((w) => (
                             <option key={w} value={w}>
                               {formatWeight(w)}
                             </option>

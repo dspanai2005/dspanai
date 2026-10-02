@@ -60,15 +60,15 @@ export const PRODUCT = {
   basePrice: 299,
   baseWeightGrams: 250,
   minWeightGrams: 250,
-  maxWeightGrams: 10000,
+  maxWeightGrams: 1000,
   weightIncrementGrams: 50,
   currency: "INR",
   description:
     "Traditional Tamil Panangarkandu (pure palm candy) with naturally formed crystals, packed in our illustrated D's PANAI pouch.",
   longDescription:
     "Panangarkandu (also known as Panakarkandu or palm candy) is the crystallised sweetness of palmyra palm sap. Carefully selected and sealed in our illustrated D's PANAI pack, brought directly to your home.",
-  quickWeights: [250, 500, 750, 1000, 1250, 1500, 2000, 2500, 3000, 5000, 10000],
-  allWeights: [250, 500, 750, 1000, 1250, 1500, 2000, 2500, 3000, 5000, 10000],
+  quickWeights: [250, 500, 1000],
+  allWeights: [250, 500, 1000],
   gallery: [
     {
       src: PRODUCT_IMAGES.front,
