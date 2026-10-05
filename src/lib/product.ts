@@ -57,7 +57,7 @@ export const PRODUCT = {
   englishName: "Palm Candy",
   tamilName: "பனங்கற்கண்டு",
   category: "Palm Candy",
-  basePrice: 299,
+  basePrice: 249,
   baseWeightGrams: 250,
   minWeightGrams: 250,
   maxWeightGrams: 1000,
@@ -115,7 +115,7 @@ export const PRODUCT = {
 
 export function calculatePrice(weightGrams: number): number {
   const tiers: ReadonlyArray<readonly [number, number]> = [
-    [250, 299],
+    [250, 249],
     [500, 499],
     [750, 699],
     [1000, 899],
